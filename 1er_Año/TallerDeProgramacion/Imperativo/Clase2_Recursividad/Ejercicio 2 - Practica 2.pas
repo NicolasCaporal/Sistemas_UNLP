@@ -12,9 +12,8 @@ begin
 	begin
 		n := n div 10;
 		imprimirDigitos(n);
-		writeln(dig);
+		write(dig, ' ');
 	end;
-	writeln;
 end;
 
 
@@ -27,6 +26,7 @@ begin
 	while (n <> 0) do
 	begin
 		imprimirDigitos(n);
+		writeln;
 		readln(n);
 	end;
 end.
