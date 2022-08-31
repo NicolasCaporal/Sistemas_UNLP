@@ -32,7 +32,7 @@ procedure generarNumAleatorio(var l: lista; var ult: lista);
 var
 	n: integer;
 begin
-	n := Random(10);
+	n := Random(100);
 	if (n <> 0) then
 	begin
 		agregarAtras(l, ult, n);
