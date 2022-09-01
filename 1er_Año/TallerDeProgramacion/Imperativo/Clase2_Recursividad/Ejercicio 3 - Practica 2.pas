@@ -73,7 +73,7 @@ begin
 end;
 
 {d. Implemente un módulo recursivo que devuelva verdadero si un valor determinado se encuentra en la lista o falso en caso contrario. }
-function buscarN (var aux: boolean; n: integer; l: lista): boolean;
+procedure buscarN (var ret: boolean; n: integer; l: lista);
 begin
 	if (l <> nil) then
 	begin
@@ -81,18 +81,17 @@ begin
 		if (n = l^.dato)then
 		begin
 			//writeln('SON IGUALES');
-			aux:= true;
+			ret:= true;
 			//writeln('AUX: ', aux);
 		end
 		else
 		begin
 			//WRITELN('NO SON IGUALES');
-			aux := false;
-			buscarN(aux, n, l^.sig);
+			ret := false;
+			buscarN(ret, n, l^.sig);
 			//writeln('AUX: ', aux);
 		end;
 	end;
-	buscarN := aux;
 end;
 
 var
@@ -115,5 +114,6 @@ begin
 	aux := false;
 	write('INGRESE EL VALOR A BUSCAR: ');
 	readln(n);
-	writeln(BuscarN(aux, n, l));
+	BuscarN(aux, n, l);
+	writeln(aux);
 end. 
