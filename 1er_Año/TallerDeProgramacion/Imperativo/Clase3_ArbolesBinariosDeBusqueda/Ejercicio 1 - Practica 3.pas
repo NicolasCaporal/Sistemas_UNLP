@@ -219,10 +219,21 @@ begin
 	suma:= 0;
 	if (a <> nil) then
 	begin
-		if ((a^.dato.nro <= LimSup) and (a^.dato.nro >= LimInf)) then
-			suma := suma + 1;
-		cantEntreLimInfyLimSup(LimInf, LimSup, a^.hi);
-		cantEntreLimInfyLimSup(LimInf, LimSup, a^.hd);
+		writeln('PASO POR: ' , a^.dato.nro);
+		if(a^.dato.nro < LimInf) then
+		begin
+			suma := cantEntreLimInfyLimSup(LimInf, LimSup, a^.HD);
+		end
+		else if(a^.dato.nro > LimSup) then
+		begin
+			suma := cantEntreLimInfyLimSup(LimInf, LimSup, a^.HI);
+		end
+		else 
+		begin
+			suma := 1;
+			suma := suma + cantEntreLimInfyLimSup(LimInf, LimSup, a^.HI);
+			suma := suma + cantEntreLimInfyLimSup(LimInf, LimSup, a^.HD);
+		end;
 	end;
 	
 	cantEntreLimInfyLimSup := suma;
