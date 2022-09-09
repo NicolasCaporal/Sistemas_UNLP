@@ -189,17 +189,16 @@ function devolverCant (a: arbol2; code: integer): integer;
 begin
 	if (a <> nil) then
 	begin
-		if (a^.dato.code < code) then
-			devolverCant(a^.hd, code)
+		if (a^.dato.code = code) then
+			devolverCant := a^.dato.cant
+		else if (a^.dato.code < code) then
+			devolverCant:= devolverCant(a^.hd, code)
 		else if (a^.dato.code > code) then
-			devolverCant(a^.hi, code);
-	end;
-	
-			
-	if ((a <> nil) and (a^.dato.code = code)) then
-		devolverCant := a^.dato.cant
+			devolverCant:= devolverCant(a^.hi, code);
+	end
 	else
-		devolverCant := 0; 
+		cant:=0;
+
 end;
 
 {PROGRAMA PRINCIPAL}
