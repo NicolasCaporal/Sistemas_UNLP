@@ -17,8 +17,8 @@ ORG 3000H
          JS FIN_D
          CMP AL, 0
          JNZ RESTO
-  FIN_D: MOV DX, 0
-         MOV DL, AL
+  FIN_D: MOV REST, AL
+         MOV BX, OFFSET REST
          RET
 
 
@@ -28,6 +28,5 @@ ORG 2000H
 
     CALL RESTO
 
-    MOV REST, DL
     HLT
 END
