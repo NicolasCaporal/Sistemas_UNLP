@@ -13,13 +13,15 @@ ORG 1500H
 ORG 3000H
 INGRESAR_CLAVE: PUSH BX
                 PUSH CX
+
                 MOV CL, 4
                 MOV BX, OFFSET IMPUT
                 REPETIR: INT 6
-                INC BX
-                DEC CL
-                CMP CL, 0
-                JNZ REPETIR 
+                         INC BX
+                         DEC CL
+                         CMP CL, 0
+                         JNZ REPETIR 
+                         
                 POP CX
                 POP BX
                 RET
@@ -27,24 +29,27 @@ INGRESAR_CLAVE: PUSH BX
   COMPARAR: PUSH BX
             PUSH DX
             PUSH CX
+
             MOV CL, 4
             MOV BX, OFFSET CLAVE
             SIG: MOV DL, [BX]
-            ADD BX, 4
-            MOV DH, [BX]
-            CMP DL, DH
-            JNZ GUARDA
-            DEC CL
-            SUB BX, 3
-            CMP CL, 0
-            JNZ SIG
+                 ADD BX, 4
+                 MOV DH, [BX]
+                 CMP DL, DH
+                 JNZ GUARDA
+                 DEC CL
+                 SUB BX, 3
+                 CMP CL, 0
+                 JNZ SIG
+
             GUARDA: CMP CL, 0
-            JNZ FALSE
-            MOV DX, 0FFh
-            JMP TRUE 
-            FALSE: MOV DX, 00h
-            TRUE: PUSH DX
-            POP DX
+                    JNZ FALSE
+                    MOV DX, 0FFh
+                    JMP TRUE 
+                    FALSE: MOV DX, 00h
+                    TRUE:  PUSH DX
+                           POP DX
+                    
             POP CX
             POP DX
             POP BX
