@@ -23,8 +23,6 @@ DIV_10: MOV DX, 0
 BUCLE:  SUB CL, 10
         INC DL
         CMP CL, 10
-        JZ FIN_D
-        CMP CL, 10
         JS FIN_D 
         JMP BUCLE
 FIN_D:  RET
