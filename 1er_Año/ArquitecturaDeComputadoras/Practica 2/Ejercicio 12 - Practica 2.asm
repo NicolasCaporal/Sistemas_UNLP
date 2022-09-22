@@ -1,3 +1,7 @@
+;12) Interrupción por hardware: TIMER.
+;Implementar a través de un programa un reloj segundero que muestre en pantalla los segundos transcurridos (00-59 seg)
+;desde el inicio de la ejecución.
+
 CONT EQU 10H
 COMP EQU 11H
 EOI EQU 20H
