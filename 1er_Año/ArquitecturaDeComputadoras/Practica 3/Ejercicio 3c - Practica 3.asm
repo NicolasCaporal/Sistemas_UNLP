@@ -32,7 +32,6 @@ IMPRIMIR: PUSH AX
           POP AX
           IRET
 
-ORG 40
 
 ORG 2000H
 CLI
