@@ -20,6 +20,7 @@ procesos
       sino
         juntarFlores
         mover 
+        
     si ~(HayFlorEnLaEsquina)
       esquinasVacias := esquinasVacias + 1
     sino
@@ -46,6 +47,9 @@ robots
     esquinasVacias: numero
   
   comenzar 
+    cantFlores := 0
+    esquinasVacias := 0
+    
     barrerAvenida (esquinasVacias)
     dejarFlores (cantFlores)
     Informar(cantFlores)
