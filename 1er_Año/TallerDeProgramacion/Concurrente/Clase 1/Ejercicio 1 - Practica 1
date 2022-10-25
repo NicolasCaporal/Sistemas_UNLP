@@ -13,7 +13,7 @@ procesos
 
   proceso barrerAvenida (ES esquinasVacias: numero)
   comenzar
-    mientras (PosCa < 100)
+    repetir 99
       si ~(HayFlorEnLaEsquina)
         esquinasVacias := esquinasVacias + 1
         mover
