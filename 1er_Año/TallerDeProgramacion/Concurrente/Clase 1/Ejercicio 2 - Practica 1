@@ -1,0 +1,93 @@
+{ 2) Realice un programa en el que 4 robots limpien de papeles el perímetro de un cuadrado
+de lado 20 en sentido horario. 
+El vértice inferior izquierdo del cuadrado se ubica en la esquina (10,10).
+Al finalizar, cada robot debe informar la cantidad de papeles juntados en su lado. }
+
+programa Ejercicio2Practica1 
+procesos
+
+  proceso juntarPapeles (ES cantPapeles: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles := cantPapeles + 1
+  fin   
+
+  proceso barrerLado (ES cantPapeles: numero)
+  comenzar
+    repetir 19
+      juntarPapeles (cantPapeles)
+      mover
+    juntarPapeles (cantPapeles)
+  fin 
+
+areas 
+  ciudad: AreaC(1,1,100,100) 
+
+robots 
+  robot lado1   
+  variables
+    cantPapeles: numero
+
+  comenzar 
+    cantPapeles := 0
+    barrerLado(cantPapeles)
+    Informar(cantPapeles)
+  fin 
+  
+  robot lado2  
+  variables
+    cantPapeles: numero
+ 
+  comenzar
+    cantPapeles := 0
+    derecha
+    barrerLado(cantPapeles)
+    Informar(cantPapeles)
+  fin
+  
+  
+  robot lado3
+  variables
+    cantPapeles: numero
+
+  comenzar
+    cantPapeles := 0
+    repetir 2
+      derecha
+    barrerLado(cantPapeles)
+    Informar(cantPapeles)
+  fin
+  
+  
+  robot lado4
+  variables
+    cantPapeles: numero
+
+  comenzar
+    cantPapeles := 0
+    repetir 3
+      derecha
+    barrerLado(cantPapeles)
+    Informar(cantPapeles)
+  fin
+  
+variables 
+  robotL1: lado1
+  robotL2: lado2
+  robotL3: lado3
+  robotL4: lado4
+  
+comenzar
+  AsignarArea(robotL1, ciudad) 
+  AsignarArea(robotL2, ciudad) 
+  AsignarArea(robotL3, ciudad) 
+  AsignarArea(robotL4, ciudad) 
+  
+  
+  Iniciar (robotL1, 10, 10)
+  Iniciar (robotL2, 10, 30)
+  Iniciar (robotL3, 30, 30)
+  Iniciar (robotL4, 30, 10)
+fin
+
