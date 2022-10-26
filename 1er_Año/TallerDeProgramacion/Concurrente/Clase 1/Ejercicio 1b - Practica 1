@@ -1,0 +1,72 @@
+{ 1b) Modifique el programa anterior para que el
+trabajo sea realizado por 3 robots: uno realiza la
+avenida 1, otro realiza la avenida 3 y otro la
+avenida 5. Cada robot debe iniciar en las esquinas
+(1,1), (3,1) y (5,1) respectivamente. }
+
+programa Ejercicio1bPractica1 
+procesos
+
+  proceso juntarFlores 
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+  fin   
+
+  proceso barrerAvenida (ES esquinasVacias: numero)
+  comenzar
+    repetir 99
+      si ~(HayFlorEnLaEsquina)
+        esquinasVacias := esquinasVacias + 1
+        mover
+      sino
+        juntarFlores
+        mover 
+        
+    si ~(HayFlorEnLaEsquina)
+      esquinasVacias := esquinasVacias + 1
+    sino
+      juntarFlores
+  fin
+
+  proceso dejarFlores (ES contador: numero)
+  comenzar
+    mientras (HayFlorEnLaBolsa)
+      depositarFlor
+      contador := contador + 1
+  fin
+  
+ 
+
+areas 
+  ciudad: AreaC(1,1,100,100) 
+
+robots 
+  robot robot1 
+  
+  variables
+    cantFlores: numero
+    esquinasVacias: numero
+  
+  comenzar 
+    cantFlores := 0
+    esquinasVacias := 0
+    barrerAvenida(esquinasVacias)
+    dejarFlores(cantFlores)
+    Informar(cantFlores)
+    Informar(esquinasVacias)
+  fin 
+
+variables 
+  avenida1: robot1 
+  avenida3: robot1
+  avenida5: robot1
+comenzar 
+  AsignarArea(avenida1,ciudad) 
+  AsignarArea(avenida3,ciudad)
+  AsignarArea(avenida5,ciudad)
+  
+  Iniciar(avenida1, 1,1)
+  Iniciar(avenida3, 3,1)
+  Iniciar(avenida5, 5,1)
+fin 
