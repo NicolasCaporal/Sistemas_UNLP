@@ -1,0 +1,99 @@
+{ 3) Realice un programa en el que 3 robots realicen escaleras de 4 escalones, en las que el tamaño de cada escalón se incrementa en un 1 respecto al escalón anterior. El primer
+escalón será de 1x1, el segundo de 2x2, y así sucesivamente.
+Al finalizar el recorrido, cada robot debe informar la cantidad de escalones en los que la
+cantidad de papeles superó en 1 a la cantidad de flores. Durante el recorrido, no se debe
+modificar el contenido de las esquinas. }
+
+programa Ejercicio3Practica1 
+procesos
+
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+
+  proceso juntarYContar (ES cantF: numero; ES cantP: numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      cantF := cantF + 1
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      cantP := cantP + 1
+  fin
+  
+  proceso vaciarBolsa 
+  comenzar
+    mientras HayFlorEnLaBolsa
+      depositarFlor
+    mientras HayPapelEnLaBolsa
+      depositarPapel
+  fin
+  
+  proceso escalon (E longitud: numero; ES MasPapeles: boolean)
+  variables
+    cantF, cantP: numero
+    
+  comenzar
+    cantF := 0
+    cantP := 0
+    
+    repetir longitud
+      juntarYContar(cantF, cantP)
+      vaciarBolsa
+      mover
+      
+    derecha
+    
+    repetir longitud
+      juntarYContar (cantF, cantP)
+      vaciarBolsa
+      mover
+    izquierda
+    
+    MasPapeles := (cantP > cantF)
+    
+  fin
+
+
+areas 
+  ciudad: AreaC(1,1,100,100) 
+
+robots 
+
+  robot escalera
+  variables
+    longitud: numero
+    cantMasPapeles: numero
+    habiaMasPapeles: boolean
+  
+  comenzar 
+    cantMasPapeles := 0
+    longitud := 1
+    habiaMasPapeles := F
+    
+    repetir 4
+      escalon(longitud, habiaMasPapeles)
+      si (habiaMasPapeles)
+        cantMasPapeles := cantMasPapeles + 1
+      longitud := longitud + 1 
+      
+    Informar(cantMasPapeles)    
+  fin 
+
+
+variables 
+  robot1: escalera
+  robot2: escalera
+  robot3: escalera
+  
+comenzar 
+  AsignarArea(robot1,ciudad) 
+  AsignarArea(robot2,ciudad)
+  AsignarArea(robot3,ciudad)
+  
+  Iniciar(robot1, 12, 14)
+  Iniciar(robot2, 17, 10)
+  Iniciar(robot3, 22, 6)
+fin 
