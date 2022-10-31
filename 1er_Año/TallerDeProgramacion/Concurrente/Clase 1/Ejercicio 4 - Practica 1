@@ -1,0 +1,95 @@
+{4) La ciudad se dividió en 4 áreas:
+- Área 1: desde la avenida 1 hasta la avenida 25
+- Área 2: desde la avenida 26 hasta la avenida 50
+- Área 3: desde la avenida 51 hasta la avenida 75
+- Área 4: desde la avenida 76 hasta la avenida 100
+
+Las áreas impares (1 y 3) deben limpiarse de flores, y las áreas pares (2 y 4) deben
+limpiarse de papeles.
+Realice un programa en el que un robot se encarga de limpiar las áreas 1 y 3, y otro
+robot se encarga de las áreas 2 y 4. Para ello, modularice el recorrido de cada área. }
+
+programa Ejercicio4Practica1 
+
+procesos
+
+  proceso limpiarEsquinaFlores
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+
+  proceso limpiarAvenidaFlores
+  comenzar
+    repetir 99
+      limpiarEsquinaFlores
+      mover
+    limpiarEsquinaFlores
+  fin
+  
+  proceso limpiarAreaFlores
+  comenzar
+    repetir 24
+      limpiarAvenidaFlores
+      Pos(PosAv+1, 1)
+    limpiarAvenidaFlores
+  fin
+  
+  proceso limpiarEsquinaPapeles
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+  
+  proceso limpiarAvenidaPapeles
+  comenzar
+    repetir 99
+      limpiarEsquinaPapeles
+      mover
+    limpiarEsquinaPapeles
+  fin
+  
+  proceso limpiarAreaPapeles
+  comenzar
+    repetir 24
+      limpiarAvenidaPapeles
+      Pos(PosAv+1, 1)
+    limpiarAvenidaPapeles
+  fin
+  
+areas
+  area1: AreaP( 1, 1, 25, 100)
+  area2: AreaP(26, 1 ,50, 100)
+  area3: AreaP(51, 1, 75, 100)
+  area4: AreaP(76, 1, 100, 100)
+
+robots 
+
+  robot limpiaFloresImpares
+  comenzar 
+    limpiarAreaFlores
+    Pos(PosAv + 26, 1)
+    limpiarAreaFlores
+  fin 
+
+  robot limpiaPapelesPares
+  comenzar 
+    limpiarAreaPapeles
+    Pos(PosAv + 26, 1)
+    limpiarAreaPapeles
+  fin 
+
+variables 
+  robot1: limpiaFloresImpares
+  robot2: limpiaPapelesPares
+  
+comenzar 
+  AsignarArea(robot1,area1) 
+  AsignarArea(robot1,area3) 
+  AsignarArea(robot2,area2)
+  AsignarArea(robot2,area4)
+  
+  Iniciar(robot1, 1, 1)
+  Iniciar(robot2, 26, 1)
+fin 
+
