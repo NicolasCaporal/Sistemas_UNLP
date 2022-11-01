@@ -1,0 +1,85 @@
+programa Ejercicio5Practica1
+procesos
+
+  proceso limpiarEsquinaF (ES cantFlores: numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      cantFlores := cantFlores + 1
+  fin
+
+  proceso limpiarCalleF
+  variables
+    cantF: numero
+
+  comenzar
+    cantF := 0
+    repetir 20
+      limpiarEsquinaF(cantF)
+      mover
+    limpiarEsquinaF(cantF)
+    repetir cantF
+      depositarFlor
+  fin
+
+  proceso limpiarEsquinaP (ES cantPapeles: numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      cantPapeles := cantPapeles + 1
+  fin
+
+  proceso limpiarAvenidaP
+  variables
+    cantP: numero
+
+  comenzar
+    cantP := 0
+    repetir 20
+      limpiarEsquinaP(cantP)
+      mover
+    limpiarEsquinaP(cantP)
+    repetir cantP
+      depositarFlor
+  fin
+
+areas
+  area1: AreaP(1,75,21,80)
+  area2: AreaP(75,80, 80, 100)
+  area3: AreaP(80,10,100,15)
+  area4: AreaP(10,1,15,21)
+
+robots 
+
+  robot limpiaFlores
+  comenzar
+    derecha
+    limpiarCalleF
+    Pos(PosAv - 20, PosCa - 5)
+    limpiarCalleF
+  fin
+
+  robot limpiaPapeles
+  comenzar
+    limpiarAvenidaP
+    Pos(PosAv + 5, PosCa - 20)
+    limpiarAvenidaP
+  fin
+
+variables
+  robot1: limpiaFlores
+  robot2: limpiaPapeles
+  robot3: limpiaFlores
+  robot4: limpiaPapeles
+
+comenzar
+  AsignarArea(robot1, area1)
+  AsignarArea(robot2, area2)
+  AsignarArea(robot3, area3)
+  AsignarArea(robot4, area4)
+  
+  Iniciar(robot1, 1, 80)
+  Iniciar(robot2, 75, 80)
+  Iniciar(robot3, 80, 15)
+  Iniciar(robot4, 10, 1)
+fin
