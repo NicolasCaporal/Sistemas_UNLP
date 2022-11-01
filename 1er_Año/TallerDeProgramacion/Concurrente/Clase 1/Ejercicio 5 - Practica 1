@@ -1,3 +1,13 @@
+{ 5) Realice un programa en el que cuatro robots realizan las siguientes actividades:
+     El robot 1 debe limpiar de flores las primeras 20 esquinas de las calles 75 y 80. Al
+    finalizar cada calle, debe depositar todas las flores en la última esquina.
+     El robot 2 debe limpiar de papeles las últimas 20 esquinas de las avenidas 75 y 80. Al
+    finalizar cada avenida debe depositar todos los papeles en la primera esquina.
+     El robot 3 debe limpiar de flores las últimas 20 esquinas de las calles 10 y 15. Al
+    finalizar cada calle, debe depositar todas las flores en la última esquina.
+     El robot 4 debe limpiar de papeles las primeras 20 esquinas de las avenidas 10 y 15.
+    Al finalizar cada avenida debe depositar todos los papeles en la primera esquina.}
+
 programa Ejercicio5Practica1
 procesos
 
