@@ -6,7 +6,7 @@ la diferencia de flores que obtuvo respecto al robot perdedor (el que obtuvo men
 flores).
 Los robots inician en las esquinas (1, 1) y (2, 11) respectivamente. }
 
-programa practica2_1
+programa Ejercicio1Practica2
 procesos
 
   proceso juntarYContarF (ES cantF: numero)
