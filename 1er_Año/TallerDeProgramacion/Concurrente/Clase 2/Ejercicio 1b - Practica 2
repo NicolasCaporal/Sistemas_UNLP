@@ -1,0 +1,77 @@
+{b. Modifique el ejercicio anterior, considerando que ahora habrá un robot fiscalizador,
+que será responsable de informar la diferencia de flores que obtuvo el ganador con
+respecto al perdedor. El robot fiscalizador se ubica en la esquina (2,1)}
+programa Ejercicio1bPractica2
+procesos
+  proceso juntarYContarF (ES cantF: numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      cantF := cantF +1
+  fin
+
+areas
+  area1: AreaP(1,1,1,10)
+  area2: AreaP(2, 11, 2, 20)
+  areaJefe: AreaP(2,1,2,1)
+
+robots
+  robot robot1
+  variables
+    cantF: numero
+    id: numero
+  comenzar
+    RecibirMensaje(id, jefe)
+    cantF := 0
+    
+    repetir 9
+      juntarYContarF(cantF)
+      mover
+    juntarYContarF(cantF)
+    
+    EnviarMensaje(id, jefe)
+    EnviarMensaje(cantF, jefe)
+  fin
+
+
+  robot fiscalizador
+  variables
+    cantJ1, cantJ2: numero
+    id: numero
+    diferencia: numero
+  comenzar
+    EnviarMensaje(1, jugador1)
+    EnviarMensaje(2, jugador2)
+    RecibirMensaje(id, *)
+    
+    si (id = 1)
+      RecibirMensaje(cantJ1, jugador1)
+      RecibirMensaje(id, jugador2)
+      RecibirMensaje(cantJ2, jugador2)
+    sino
+      RecibirMensaje(cantJ2, jugador2)
+      RecibirMensaje(id, jugador1)
+      RecibirMensaje(cantJ1, jugador1)
+      
+    si (cantJ1 > cantJ2)
+      diferencia := cantJ1 - cantJ2
+    sino
+      diferencia := cantJ2 - cantJ1
+    
+    Informar(diferencia)
+  fin
+
+
+variables
+  jugador1: robot1
+  jugador2: robot1
+  jefe: fiscalizador
+
+comenzar
+  AsignarArea(jugador1, area1)
+  AsignarArea(jugador2, area2)
+  AsignarArea(jefe, areaJefe)
+  Iniciar(jugador1, 1,1)
+  Iniciar(jugador2, 2,11)
+  Iniciar(jefe, 2,1)
+fin
