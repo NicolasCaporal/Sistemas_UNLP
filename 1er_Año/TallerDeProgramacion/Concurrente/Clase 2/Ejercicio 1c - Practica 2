@@ -8,7 +8,7 @@
 ○ Fiscalizador: Avenida 2, calle 1
 El fiscalizador deberá informar la cantidad de flores que juntó el robot ganador. }
 
-programa Ejercicio1bPractica2
+programa Ejercicio1cPractica2
 procesos
   proceso juntarYContarF (ES cantF: numero)
   comenzar
