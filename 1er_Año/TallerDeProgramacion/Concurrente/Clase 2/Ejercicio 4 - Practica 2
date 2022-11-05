@@ -1,0 +1,203 @@
+{ 4. Realice un programa en el que un robot fiscalizador controla el acceso de 4 robots
+recolectores al cuadrante encerrado entre las esquinas (25,25) y (75,75) . Para ello, el
+robot fiscalizador avisa a un robot recolector aleatorio que puede ingresar al área. El
+robot que recibe la autorización de acceso calcula una esquina aleatoria dentro del
+área, limpia dicha esquina de flores y papeles, regresa a su esquina y avisa al robot
+fiscalizador que ya finalizó.
+Se realizarán en total 10 accesos al cuadrante entre los 4 robots recolectores. Al
+finalizar, el robot fiscalizador deberá indicar al robot ganador que se posicione en la
+esquina (50,50).
+El robot fiscalizador inicia en la esquina (1,1) y los robots recolectores inician en las
+esquinas (25,1) (30,1) (35,1) y (40,1) respectivamente }
+
+programa ejercicio4Practica2
+procesos
+  proceso entregarIdentificadores
+  comenzar
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+    EnviarMensaje(4, robot4)
+  fin
+
+  proceso autorizar (E id: numero)
+  variables
+    termino: numero
+  comenzar
+    termino := -1
+    Informar(termino)
+    si (id = 1)
+      EnviarMensaje(1, robot1)
+      RecibirMensaje(termino, robot1)
+    sino
+      si (id = 2)
+        EnviarMensaje(1, robot2)
+        RecibirMensaje(termino, robot2)
+      sino
+        si (id = 3)
+          EnviarMensaje(1, robot3)
+          RecibirMensaje(termino, robot3)
+        sino
+          EnviarMensaje(1, robot4)
+          RecibirMensaje(termino, robot4)
+  fin
+  
+  proceso avisarFin
+  comenzar
+    EnviarMensaje(2, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(2, robot3)
+    EnviarMensaje(2, robot4)
+  fin
+  
+  proceso chequearGanador(ES ganador: numero)
+  variables
+    max: numero
+    id: numero
+    idMax: numero
+    cant: numero
+  comenzar
+    max := -1
+    idMax := -1
+    id := 1
+    repetir 4
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(cant, robot1)
+      sino
+        si (id = 2)
+          RecibirMensaje(cant, robot2)
+        sino
+          si (id = 3)
+            RecibirMensaje(cant, robot3)
+          sino
+            RecibirMensaje(cant, robot4)
+      si (cant > max)
+        max := cant
+        idMax := id
+    ganador := idMax
+  fin
+  
+  proceso avisarAlGanador (E ganador: numero)
+  comenzar
+    si (ganador = 1)
+      EnviarMensaje(10, robot1)
+      EnviarMensaje(0, robot2)
+      EnviarMensaje(0, robot3)
+      EnviarMensaje(0, robot4)
+    sino
+      si (ganador = 2)
+        EnviarMensaje(10, robot2)
+        EnviarMensaje(0, robot1)
+        EnviarMensaje(0, robot3)
+        EnviarMensaje(0, robot4)
+      sino 
+        si (ganador = 3)
+          EnviarMensaje(10, robot3)
+          EnviarMensaje(0, robot1)
+          EnviarMensaje(0, robot2)
+          EnviarMensaje(0, robot4)
+        sino
+          EnviarMensaje(10, robot4)
+          EnviarMensaje(0, robot1)
+          EnviarMensaje(0, robot2)
+          EnviarMensaje(0, robot3)
+  fin
+  
+  proceso limpiarEsquina (ES cantEnBolsa: numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      cantEnBolsa := cantEnBolsa + 1
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      cantEnBolsa := cantEnBolsa + 1
+  fin
+  
+  proceso acceso (ES autorizacion: numero; ES cantJuntado: numero)
+  variables
+    iniAv, iniCa: numero
+    av, ca: numero
+  comenzar
+    iniAv := PosAv
+    iniCa := PosCa
+    RecibirMensaje(autorizacion, fiscal)
+    Informar(autorizacion)
+    si (autorizacion = 1)
+      Random(av, 25, 75)
+      Random(ca, 25, 75)
+      Pos(av, ca)
+      limpiarEsquina(cantJuntado)
+      Pos(iniAv, iniCa)
+      EnviarMensaje(0, fiscal) 
+  fin
+  
+areas
+  cuadrante: AreaC(25,25,75,75)
+  inicioFiscalizador: AreaP(1,1,1,1)
+  inicioR1: AreaP(25,1,25,1)
+  inicioR2: AreaP(30,1,30,1)
+  inicioR3: AreaP(35,1,35,1)
+  inicioR4: AreaP(40,1,40,1)
+  
+robots 
+  robot fiscalizador
+  variables
+    autorizado: numero
+    cant: numero
+    ganador: numero
+  comenzar
+    entregarIdentificadores
+    cant := 10
+    repetir cant
+      Random(autorizado, 1, 4)
+      Informar(autorizado)
+      autorizar(autorizado)
+    avisarFin
+    chequearGanador(ganador)
+    avisarAlGanador(ganador)
+  fin
+  
+  robot recolector
+  variables
+    id: numero
+    autorizacion: numero
+    cantJuntado: numero
+    resultado: numero
+  comenzar
+    RecibirMensaje(id, fiscal)
+    cantJuntado := 0
+    autorizacion := 0
+    mientras ~(autorizacion = 2)
+      acceso(autorizacion, cantJuntado)
+    EnviarMensaje(id, fiscal)
+    EnviarMensaje(cantJuntado, fiscal)
+    RecibirMensaje(resultado, fiscal)
+    si (resultado = 10)
+      Pos(50, 50)
+  fin
+
+variables
+  fiscal: fiscalizador
+  robot1: recolector
+  robot2: recolector
+  robot3: recolector
+  robot4: recolector
+comenzar
+  AsignarArea(fiscal, inicioFiscalizador)
+  AsignarArea(robot1, cuadrante)
+  AsignarArea(robot1, inicioR1)
+  AsignarArea(robot2, cuadrante)
+  AsignarArea(robot2, inicioR2)
+  AsignarArea(robot3, cuadrante)
+  AsignarArea(robot3, inicioR3)
+  AsignarArea(robot4, cuadrante)
+  AsignarArea(robot4, inicioR4)
+
+  
+  Iniciar(fiscal, 1, 1)
+  Iniciar(robot1, 25, 1)
+  Iniciar(robot2, 30, 1)
+  Iniciar(robot3, 35, 1)
+  Iniciar(robot4, 40, 1)
+fin
