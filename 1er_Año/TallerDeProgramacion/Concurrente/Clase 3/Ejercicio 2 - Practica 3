@@ -1,0 +1,170 @@
+{ 2- Realice un programa en el cual 2 robots corren una carrera. El recorrido realizado por
+cada uno es el que se muestra en la siguiente figura. Durante el recorrido el robot 1 debe
+juntar todas las flores que encuentre en los vértices de cada escalón, mientras que el robot
+2 debe juntar todos los papeles que encuentre en los vértices de cada escalón.
+Al finalizar deben informar la cantidad de elementos recogidos.
+El robot 1 debe iniciar su recorrido en la esquina (1,1) y el robot 2 debe iniciar su recorrido
+en la esquina (31,1).
+Al finalizar la carrera, un robot jefe (inicializado en la esquina (15,1) ) debe informar qué
+robot llegó primero a la esquina central de su recorrido. }
+
+programa Ejercicio2Practica3
+
+procesos
+  proceso asignarIds
+  comenzar
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+  fin
+
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+
+  proceso juntarPapeles (ES cant: numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      cant := cant + 1
+  fin
+  
+  proceso juntarFlores (ES cant: numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      cant := cant + 1
+  fin
+
+  proceso escalonFlor (E largo: numero; ES cantF: numero)
+  comenzar
+    repetir largo
+      mover
+    juntarFlores(cantF)
+    derecha
+    repetir largo
+      mover
+    juntarFlores(cantF)
+    izquierda
+  fin
+  
+  proceso escalonPapel (E largo: numero; ES cantP: numero)
+  comenzar
+    repetir largo
+      mover
+    juntarPapeles(cantP)
+    izquierda
+    repetir largo
+      mover
+    juntarPapeles(cantP)
+    derecha
+  fin
+  
+
+areas
+  ciudad: AreaC(1,1,100,100)
+
+
+robots
+  robot papel
+  variables
+    id: numero
+    largo: numero
+    cantP: numero
+
+  comenzar
+    RecibirMensaje(id, jefe)
+    cantP := 0
+    largo := 5
+
+    mientras (largo >= 2)
+      escalonPapel (largo, cantP)
+      largo := largo - 1
+
+    mover
+    izquierda
+
+    BloquearEsquina(PosAv - 1, PosCa)
+    mover
+    EnviarMensaje(id, jefe)
+    repetir 2
+      derecha
+    mover
+    LiberarEsquina(PosAv - 1, PosCa)
+
+    largo := 2
+
+    mientras (largo <= 5)
+      escalonPapel(largo, cantP)
+      largo := largo + 1
+
+    Informar(cantP)
+  fin
+  
+  robot flor
+  variables
+    id: numero
+    largo: numero
+    cantF: numero
+
+  comenzar
+    RecibirMensaje(id, jefe)
+    cantF := 0
+    largo := 5
+
+    mientras (largo >= 2)
+      escalonFlor(largo, cantF)
+      largo := largo - 1
+
+    mover
+    derecha
+
+    BloquearEsquina(PosAv + 1, PosCa)
+    mover
+    EnviarMensaje(id, jefe)
+    repetir 2 
+      derecha
+    mover
+    LiberarEsquina(PosAv + 1, PosCa)
+
+    largo := 2
+
+    mientras (largo <= 5)
+      escalonFlor(largo, cantF)
+      largo := largo + 1
+
+    Informar(cantF)
+  fin
+  
+
+  robot fiscal
+  variables
+    id: numero
+    ganador: numero
+  comenzar
+    asignarIds
+
+    RecibirMensaje(id, *)
+    si (id = 1)
+      ganador := 1
+    sino
+      ganador := 2
+
+    Informar('Gano', ganador)
+  fin
+  
+
+variables
+  robot1: flor
+  robot2: papel
+  jefe: fiscal
+  
+comenzar
+  AsignarArea(robot2, ciudad)
+  AsignarArea(robot1, ciudad)
+  AsignarArea(jefe, ciudad)
+  Iniciar(robot1, 1,1)
+  Iniciar(robot2, 31,1)
+  Iniciar(jefe, 16,1)
+fin
