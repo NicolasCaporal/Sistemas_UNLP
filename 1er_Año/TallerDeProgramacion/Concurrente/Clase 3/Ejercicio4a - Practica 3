@@ -8,7 +8,7 @@ de la esquina (11,11).
 El robot coordinador inicia en la esquina (1,1).
 Los robots inician en las esquinas (9,9) (9,10) (9,11) y (9,12) }
 
-programa Ejercicio4Practica3
+programa Ejercicio4aPractica3
 
 procesos
   proceso enviarIds
@@ -47,15 +47,17 @@ robots
         tomarFlor
       sino
         HayFlores := F
-      
-      Pos(avIni, caIni)
-      LiberarEsquina(10, 10)
+
       si (HayFlorEnLaBolsa)
         BloquearEsquina(11, 11)
         Pos(11,11)
+        LiberarEsquina(10, 10)
         depositarFlor
         Pos(avIni, caIni)
         LiberarEsquina(11, 11)
+      sino
+        Pos(avIni, caIni)
+        LiberarEsquina(10, 10)
     
     EnviarMensaje(id, jefe)
   fin
