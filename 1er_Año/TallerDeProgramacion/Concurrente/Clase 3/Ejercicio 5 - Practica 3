@@ -1,0 +1,101 @@
+{ 5- Realice un programa en el que 4 robots juegan una carrera por avenidas diferentes: 4, 6,
+8 y 10 respectivamente. Todos los robots inician en la calle 1.
+Para poder avanzar, cada robot debe juntar un papel de una fuente de papeles localizada
+en la esquina (11,11), colocarlo en la esquina actual de su avenida y avanzar un paso.
+Cuando la esquina fuente ya no tiene más papeles, o cuando se haya completado la
+avenida, deberán avisar al robot coordinador y este determinará el robot que llegó más
+lejos. }
+
+programa Ejercicio5Practica3
+procesos
+  proceso enviarIds
+  comenzar
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+    EnviarMensaje(4, robot4)
+  fin
+  
+areas
+  avenida4: AreaP(4,1,4,100)
+  avenida6: AreaP(6,1,6,100)
+  avenida8: AreaP(8,1,8,100)
+  avenida10: AreaP(10,1,10,100)
+  fuente: AreaPC(11,11,11,11)
+  areaCoordinador: AreaP(2,1,2,1)
+  
+robots
+  robot corredor
+  variables
+    id: numero
+    hayPapeles: boolean
+    avAct, caAct: numero
+  comenzar
+    RecibirMensaje(id, jefe)
+    hayPapeles := V
+    mientras ((hayPapeles) & (PosCa < 100))
+      avAct := PosAv
+      caAct := PosCa
+      BloquearEsquina(11,11)
+      Pos(11, 11)
+      si (HayPapelEnLaEsquina)
+        tomarPapel
+        Pos(avAct, caAct)
+        LiberarEsquina(11, 11)
+        mover
+      sino
+        Pos(avAct, caAct)
+        LiberarEsquina(11, 11)
+        hayPapeles := F
+        
+    EnviarMensaje(id, jefe)
+    EnviarMensaje(caAct, jefe)     
+  fin
+  
+  robot coordinador
+  variables
+    id, idMax, long, longMax: numero
+  comenzar
+    enviarIds
+    longMax := -1
+    repetir 4
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(long, robot1)
+      sino
+        si (id = 2)
+          RecibirMensaje(long, robot2)
+        sino
+          si (id = 3)
+            RecibirMensaje(long, robot3)
+          sino
+            RecibirMensaje(long, robot4)
+      
+      si (long > longMax)
+        longMax := long
+        idMax := id
+        
+    Informar('Ganador', idMax)
+  fin
+  
+variables
+  robot1, robot2, robot3, robot4: corredor
+  jefe: coordinador
+  
+comenzar
+  AsignarArea(robot1, avenida4)
+  AsignarArea(robot2, avenida6)
+  AsignarArea(robot3, avenida8)
+  AsignarArea(robot4, avenida10)
+  AsignarArea(robot1, fuente)
+  AsignarArea(robot2, fuente)
+  AsignarArea(robot3, fuente)
+  AsignarArea(robot4, fuente)
+  AsignarArea(jefe, areaCoordinador)
+  
+  Iniciar(robot1, 4,1)
+  Iniciar(robot2, 6,1)
+  Iniciar (robot3, 8,1)
+  Iniciar (robot4, 10, 1)
+  Iniciar(jefe, 2,1)
+fin
