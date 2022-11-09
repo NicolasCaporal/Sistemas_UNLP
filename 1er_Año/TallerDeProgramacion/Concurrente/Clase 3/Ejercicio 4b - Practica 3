@@ -1,0 +1,97 @@
+{ b- Implemente una variante en la cual los robots luego de tomar cada flor de la esquina
+(10,10) vuelvan a su esquina inicial, pasen a la esquina (11,11) a depositarla y finalmente
+vuelvan a la esquina inicial.}
+
+programa Ejercicio4Practica3
+
+procesos
+  proceso enviarIds
+  comenzar
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+    EnviarMensaje(4, robot4)
+  fin
+
+areas
+  inicio1: AreaP(9,9,9,9)
+  inicio2: AreaP(9,10,9,10)
+  inicio3: AreaP(9,11,9,11)
+  inicio4: AreaP(9,12,9,12)
+  inicioCoordinador: AreaP(1,1,1,1)
+  limpiar: AreaPC(10, 10, 10, 10)
+  deposito: AreaC(11, 11, 11, 11)
+  
+robots
+  robot trabajador
+  variables
+    avIni, caIni: numero
+    HayFlores: boolean
+    id: numero
+  comenzar
+    avIni := PosAv
+    caIni := PosCa
+    HayFlores := V
+    RecibirMensaje(id, jefe)
+    
+    mientras (HayFlores)
+      BloquearEsquina(10,10)
+      Pos(10, 10)
+      si (HayFlorEnLaEsquina)
+        tomarFlor
+      sino
+        HayFlores := F
+      
+      Pos(avIni, caIni)
+      LiberarEsquina(10, 10)
+      si (HayFlorEnLaBolsa)
+        BloquearEsquina(11, 11)
+        Pos(11,11)
+        depositarFlor
+        Pos(avIni, caIni)
+        LiberarEsquina(11, 11)
+    
+    EnviarMensaje(id, jefe)
+  fin
+  
+  robot coordinador
+  variables
+    ultimo: numero
+  comenzar
+    enviarIds
+    repetir 4
+      RecibirMensaje(ultimo, *)
+    Informar('Ultimo', ultimo)
+    Pos(11,11)
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  
+variables
+  robot1, robot2, robot3, robot4: trabajador
+  jefe: coordinador
+  
+comenzar
+  AsignarArea(robot1, inicio1)
+  AsignarArea(robot2, inicio2)
+  AsignarArea(robot3, inicio3)
+  AsignarArea(robot4, inicio4)  
+  AsignarArea(jefe, inicioCoordinador)
+  
+  AsignarArea(robot1, limpiar)
+  AsignarArea(robot2, limpiar)
+  AsignarArea(robot3, limpiar)
+  AsignarArea(robot4, limpiar)
+  
+  AsignarArea(robot1, deposito)
+  AsignarArea(robot2, deposito)
+  AsignarArea(robot3, deposito)
+  AsignarArea(robot4, deposito)
+  AsignarArea(jefe, deposito)
+  
+  Iniciar(robot1, 9, 9)
+  Iniciar(robot2, 9, 10)
+  Iniciar(robot3, 9, 11)
+  Iniciar(robot4, 9, 12)
+  Iniciar(jefe, 1,1)
+fin
