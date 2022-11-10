@@ -1,0 +1,267 @@
+{ 6.c. Modifique el ejercicio anterior (6.a) para que ahora el robot fiscalizador espere a que
+todos los robots recolectores hayan completado sus cuadrantes antes de indicarles la calle
+que deberán recorrer }
+
+programa Ejercicio6cPractica3
+
+procesos
+  proceso juntarFlores
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  
+  proceso juntarPapeles
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+
+  proceso avanzar1 (E cant: numero)
+  comenzar
+    repetir cant
+      juntarFlores
+      mover
+  fin
+  
+  proceso avanzar2 (E cant: numero)
+  comenzar
+    repetir cant
+      juntarFlores
+      juntarPapeles
+      mover
+  fin
+  
+  proceso avanzar3 (E cant: numero)
+  comenzar
+    repetir cant
+      juntarPapeles
+      mover
+  fin
+
+  proceso avanzarSeguro1 (E av: numero; E ca: numero)
+  comenzar
+    BloquearEsquina(av, ca)
+    mover
+    juntarFlores
+    mover
+    LiberarEsquina(av, ca)
+  fin
+  
+  proceso avanzarSeguro2 (E av: numero; E ca: numero)
+  comenzar
+    BloquearEsquina (av, ca)
+    mover
+    juntarFlores
+    juntarPapeles
+    mover
+    LiberarEsquina(av, ca)
+  fin
+  
+  proceso avanzarSeguro3 (E av: numero; E ca: numero)
+  comenzar
+    BloquearEsquina (av, ca)
+    mover
+    juntarPapeles
+    mover
+    LiberarEsquina (av, ca)
+  fin
+
+  proceso cuadrante6
+  comenzar
+    avanzar1 (6)
+    derecha
+    avanzar1 (2)
+    avanzarSeguro1 (PosAv + 1, PosCa)
+    avanzar1 (2)
+    derecha
+    avanzar1 (2)
+    avanzarSeguro1 (PosAv, PosCa - 1)
+    avanzar1 (2)
+    derecha
+    avanzar1 (6)
+  fin
+
+  proceso cuadrante10
+  comenzar
+    avanzar2 (2)
+    avanzarSeguro2 (PosAv, PosCa + 1)
+    avanzar2 (6)
+    derecha
+    avanzar2 (3)
+    avanzarSeguro2 (PosAv + 1, PosCa)
+    avanzar2 (5)
+    derecha
+    avanzar2 (5)
+    avanzarSeguro2 (PosAv, PosCa - 1)
+    avanzar2 (3)
+    derecha
+    avanzar2(6)
+    avanzarSeguro2 (PosAv - 1, PosCa)
+    avanzar2 (2)
+  fin
+
+  proceso cuadrante7 
+  comenzar
+    avanzar3(5)
+    avanzarSeguro3(PosAv, PosCa + 1)
+    derecha
+    repetir 2  
+      avanzar3(7)
+      derecha
+    avanzarSeguro3(PosAv - 1, PosCa)
+    avanzar3(5)
+  fin
+
+  proceso dejarEnLaCalle1
+  comenzar
+    mientras ((HayFlorEnLaBolsa) & (PosAv < 100))
+      depositarFlor
+      mover
+  fin
+  
+  proceso dejarEnLaCalle2
+  comenzar
+    mientras ((HayFlorEnLaBolsa) & (HayPapelEnLaBolsa) & (PosAv < 100))
+      depositarFlor
+      depositarPapel
+      mover
+  fin
+  
+  proceso dejarEnLaCalle3
+  comenzar
+    mientras ((HayPapelEnLaBolsa) & (PosAv < 100))
+      depositarPapel
+      mover
+  fin
+  
+  proceso enviarIds
+  comenzar
+    EnviarMensaje(1, robot6x6)
+    EnviarMensaje(2, robot10x10)
+    EnviarMensaje(3, robot7x7)
+  fin
+
+  proceso avisarCalle (E id1: numero; E id2: numero; E id3: numero)
+  variables
+    id: numero
+  comenzar
+    si (id1 = 1)
+      EnviarMensaje(20, robot6x6)
+    sino
+      si (id1 = 2)
+        EnviarMensaje(20, robot10x10)
+      sino
+        si (id1 = 3)
+          EnviarMensaje(20, robot7x7)
+   
+    si (id2 = 1)
+      EnviarMensaje(21, robot6x6)
+    sino
+      si (id2 = 2)
+        EnviarMensaje(21, robot10x10)
+      sino
+        si (id2 = 3)
+          EnviarMensaje(21, robot7x7)
+   
+    si (id3 = 1)   
+      EnviarMensaje(22, robot6x6)
+    sino
+      si (id3 = 2)
+        EnviarMensaje(22, robot10x10)
+      sino
+        si (id3 = 3)
+          EnviarMensaje(22, robot7x7)  
+  fin
+
+areas
+  area: AreaPC(2,2, 16, 16)
+  calle20: AreaPC(1,20,100,20)
+  calle21: AreaPC(1,21,100,21)
+  calle22: AreaPC(1, 22, 100, 22)
+  areaFiscal: AreaP(1,1,1,1)
+
+robots
+  robot robot1
+  variables
+    id: numero
+    calle: numero
+  comenzar
+    RecibirMensaje(id, jefe)
+    cuadrante6
+    EnviarMensaje(id, jefe)
+    repetir 2
+      derecha
+    RecibirMensaje(calle, jefe)
+    Pos(1, calle)
+    dejarEnLaCalle1
+  fin
+  
+  robot robot2
+  variables
+    id: numero
+    calle: numero
+  comenzar
+    RecibirMensaje(id, jefe)
+    cuadrante10
+    EnviarMensaje(id, jefe)
+    repetir 2
+      derecha
+    RecibirMensaje(calle, jefe)
+    Pos(1, calle)
+    dejarEnLaCalle2
+  fin
+  
+  robot robot3
+  variables
+    id: numero
+    calle: numero
+  comenzar
+    RecibirMensaje(id, jefe)
+    cuadrante7
+    EnviarMensaje(id, jefe)
+    repetir 2
+      derecha
+    RecibirMensaje(calle, jefe)
+    Pos(1, calle)
+    dejarEnLaCalle3
+  fin
+  
+  robot fiscalizador
+  variables
+    id1, id2, id3: numero
+    posicion: numero
+  comenzar
+    enviarIds
+    RecibirMensaje(id1, *)
+    RecibirMensaje(id2, *)
+    RecibirMensaje(id3, *)
+    avisarCalle(id1, id2, id3)
+  fin
+  
+variables
+  robot6x6: robot1
+  robot10x10: robot2
+  robot7x7: robot3
+  jefe: fiscalizador
+comenzar
+  AsignarArea(robot6x6, area)
+  AsignarArea(robot10x10, area)
+  AsignarArea(robot7x7, area)
+  AsignarArea(robot6x6, calle20)
+  AsignarArea(robot6x6, calle21)
+  AsignarArea(robot6x6, calle22)
+  AsignarArea(robot10x10, calle20)
+  AsignarArea(robot10x10, calle21)
+  AsignarArea(robot10x10, calle22)
+  AsignarArea(robot7x7, calle20)
+  AsignarArea(robot7x7, calle21)
+  AsignarArea(robot7x7, calle22)
+  AsignarArea(jefe, areaFiscal)
+
+  
+  Iniciar(robot6x6, 2,2)
+  Iniciar(robot10x10, 5,5)
+  Iniciar(robot7x7, 9, 9)
+  Iniciar(jefe, 1,1)
+fin
