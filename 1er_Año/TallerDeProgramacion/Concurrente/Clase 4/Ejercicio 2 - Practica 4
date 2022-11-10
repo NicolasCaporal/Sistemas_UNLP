@@ -1,0 +1,113 @@
+{2. Productores y consumidores
+Existen dos robots productores que recorren las avenidas 5 y 10 respectivamente, juntando
+todos los papeles de su avenida. A lo largo del recorrido, cada vez que juntan 5 papeles, los
+depositan en la esquina (50,50).
+Además existen dos robots consumidores que intentan tomar una cantidad aleatoria de
+papeles (entre 2 y 5) de la esquina (50,50) para depositarla en su esquina de origen. Si la
+esquina (50,50) no posee la cantidad de papeles requerida, vuelven a su esquina de origen
+sin tomar ningún papel. Si luego de 8 intentos seguidos detectan que la esquina (50,50) no
+tiene papeles suficientes para juntar, entonces asumirán que los productores ya han
+completado su trabajo y por lo tanto terminarán su tarea también.
+Los consumidores inician en las esquinas (11,1) y (12,1) respectivamente.}
+
+programa Ejercicio2Practica4
+procesos
+  proceso juntarPapeles (ES cantP: numero)
+  comenzar
+    mientras ((HayPapelEnLaEsquina) & (cantP < 5))
+      tomarPapel
+      cantP := cantP + 1
+  fin
+  
+  proceso dejarPapeles
+  comenzar
+    mientras (HayPapelEnLaBolsa)
+      depositarPapel
+  fin
+  
+areas 
+  inicioConsumidores: AreaPC(11,1, 12,1)
+  avenida5: AreaP (5,1,5,100)
+  avenida10: AreaP(10,1,10,100)
+  deposito: AreaC(50,50,50,50)
+
+robots
+
+  robot productor
+  variables
+    cantP: numero
+    av, ca: numero
+
+  comenzar
+    mientras (PosCa < 99)
+      cantP := 0
+
+      mientras (cantP < 5) & (PosCa < 100)
+        juntarPapeles(cantP)
+        si ~(HayPapelEnLaEsquina)
+          mover
+
+      si (PosCa < 100)
+        av := PosAv
+        ca := PosCa
+        BloquearEsquina(50, 50)
+        Pos(50, 50)
+        dejarPapeles
+        Pos(av, ca)
+        LiberarEsquina(50, 50)
+  fin
+  
+  robot consumidor
+  variables
+    intentos: numero
+    cant: numero
+    contador: numero
+    av, ca: numero
+  comenzar
+    av := PosAv
+    ca := PosCa
+    intentos := 0
+    contador := 0
+    Random(cant, 2, 5)
+    mientras (intentos < 8)
+      contador := 0
+
+      BloquearEsquina(50, 50)
+      Pos(50, 50)
+      mientras ((contador < cant) & (HayPapelEnLaEsquina))
+        tomarPapel
+        contador := contador + 1
+        
+      si (contador = cant)
+        Pos(av, ca)
+        LiberarEsquina(50,50)
+        repetir contador
+          depositarPapel
+      sino 
+        si (contador < cant)
+          intentos := intentos + 1
+          repetir contador
+            depositarPapel
+          Pos(av, ca)
+          LiberarEsquina(50, 50)
+  fin
+
+variables
+  P1, P2: productor
+  C1, C2: consumidor
+  
+comenzar
+  AsignarArea(P1, avenida5)
+  AsignarArea(P1, deposito)
+  AsignarArea(P2, avenida10)
+  AsignarArea(P2, deposito)
+  AsignarArea(C1, inicioConsumidores)
+  AsignarArea(C1, deposito)
+  AsignarArea(C2, inicioConsumidores)
+  AsignarArea(C2, deposito)
+  
+  Iniciar(P1, 5, 1)
+  Iniciar(P2, 10, 1)
+  Iniciar(C1, 11, 1)
+  Iniciar(C2, 12, 1)
+fin
