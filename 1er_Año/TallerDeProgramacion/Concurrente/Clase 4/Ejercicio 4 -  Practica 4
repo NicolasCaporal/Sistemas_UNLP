@@ -1,0 +1,129 @@
+{4. Jefe y trabajadores - Master/Slave
+Un robot jefe asigna tareas a los trabajadores. Las tareas consisten en 1. recoger flores, 2.
+recoger papeles, 3. vaciar bolsa, 4. finalizar .
+Existen 2 robots trabajadores que reciben solicitudes de tareas del robot jefe. Para cada
+solicitud, reciben la tarea y la esquina donde deben realizarla (salvo cuando la tarea es 4
+que no deben acceder a una esquina). Luego de recibir la tarea, los robots van a la esquina
+indicada, realizan la tarea, avisan al jefe que ya la completaron y quedan a la espera de una
+nueva tarea.
+El robot jefe inicia en la esquina (1,1) y los robots trabajadores inician en las esquinas (2,1)
+y (3,1). Las tareas se asignan aleatoriamente a cualquier esquina dentro del cuadrante
+comprendido entre las esquinas (2,2) y (100,100). El robot jefe envía 10 tareas aleatorias a
+trabajadores aleatorios y termina. }
+
+programa Ejercicio4Practica4
+
+procesos
+  proceso juntarPapeles
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  
+  proceso juntarFlores
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  
+  proceso vaciarBolsa
+  comenzar
+    mientras (HayFlorEnLaBolsa)
+      depositarFlor
+    mientras (HayPapelEnLaEsquina)
+      depositarFlor
+  fin
+
+areas
+  cuadrante: AreaPC(2,2,100,100)
+  inicioJefe: AreaP(1,1,1,1)
+  inicio1: AreaP(2,1,2,1)
+  inicio2: AreaP(3,1,3,1)
+  
+robots
+  robot trabajador
+  variables
+    iniAv, iniCa: numero
+    tarea: numero
+    av, ca: numero
+  comenzar
+    iniAv := PosAv
+    iniCa := PosCa
+    RecibirMensaje(tarea, jefe)
+    Informar('TareaAsignada', tarea)
+    mientras ~(tarea = 4)
+      RecibirMensaje(av, jefe)
+      RecibirMensaje(ca, jefe)
+      si ~(tarea = 4)
+        BloquearEsquina(av, ca)
+        Pos(av, ca)
+        si (tarea = 1)
+          juntarFlores
+        sino
+          si (tarea = 2)
+            juntarPapeles
+          sino
+            si (tarea = 3)
+              vaciarBolsa
+        Pos(iniAv, iniCa)
+        LiberarEsquina(av, ca)
+      RecibirMensaje(tarea, jefe)
+      Informar('TareaAsignada', tarea)
+  fin
+  
+  robot master
+  variables
+    trabajador: numero
+    tarea: numero
+    av, ca: numero
+    trabajadorUnoActivo, trabajadorDosActivo: boolean
+  comenzar
+    trabajadorUnoActivo := V
+    trabajadorDosActivo := V
+    repetir 10
+      si ((trabajadorUnoActivo) & (trabajadorDosActivo))
+        Random(trabajador, 1, 2)
+      sino
+        si ((trabajadorUnoActivo) & ~(trabajadorDosActivo))
+          trabajador := 1
+        sino
+          trabajador := 2
+                   
+      Random(tarea, 1, 4)
+      Random(av, 2, 100)
+      Random(ca, 2, 100)
+      
+      si (trabajador = 1)
+        EnviarMensaje(tarea, robot1)
+        EnviarMensaje(av, robot1)
+        EnviarMensaje(ca, robot1)
+        si (tarea = 4)
+          trabajadorUnoActivo := F
+      sino
+        EnviarMensaje(tarea, robot2)
+        EnviarMensaje(av, robot2)
+        EnviarMensaje(ca, robot2)
+        si (tarea = 4)
+          trabajadorDosActivo := F
+    
+    si (trabajadorUnoActivo)
+      EnviarMensaje(4, robot1)
+    si (trabajadorDosActivo)
+      EnviarMenaje(4, robot2)        
+  fin
+  
+variables
+  robot1, robot2: trabajador
+  jefe: master
+
+comenzar
+  AsignarArea(robot1, cuadrante)
+  AsignarArea(robot2, cuadrante)
+  AsignarArea(robot1, inicio1)
+  AsignarArea(robot2, inicio2)
+  AsignarArea(jefe, inicioJefe)
+  
+  Iniciar(jefe, 1,1)
+  Iniciar(robot1, 2,1)
+  Iniciar(robot2, 3,1)
+fin
