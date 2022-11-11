@@ -1,0 +1,85 @@
+{ 3. Sincronización barrera
+Tres robots deben vaciar de papeles su avenida, comenzando por la calle 1 y terminando en
+la calle 100. El trabajo lo deben realizar todos juntos y en etapas: los robots inician juntos y
+cuando todos completan una etapa del trabajo pueden avanzar a la siguiente, lo que
+significa que para poder pasar de etapa los robots deben esperar que todos hayan
+completado la etapa en curso. Se proponen dos posibles soluciones a este problema:
+etapas homogéneas o etapas heterogéneas:
+a) Implemente el programa considerando que cada robot completa una etapa cada 5
+esquinas
+b) Implemente el programa considerando que cada robot completa una etapa luego de
+juntar N papeles. El valor de N (entre 1 y 5) lo calcula cada robot antes de iniciar
+cada etapa.
+En cada solución, analice cómo debería finalizar el programa.
+Los robots inician en las esquinas (1,1), (2,1) y (3,1) respectivamente. Existe un robot
+coordinador, cuya única tarea es asignar identificadores a cada robot. }
+
+programa Ejercicio3aPractica4
+
+procesos
+  proceso juntarPapeles
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+  
+areas 
+  avenida1: AreaP(1,1,1,100)
+  avenida2: AreaP(2,1,2,100)
+  avenida3: AreaP(3,1,3,100)
+  coordinador: AreaP(4,1,4,1)
+  
+robots 
+  robot trabajador
+  variables
+    listo: numero
+    id: numero
+  comenzar
+    RecibirMensaje(id, jefe)
+    repetir 19
+      repetir 5
+        juntarPapeles
+        mover
+
+      si (id = 1)
+        EnviarMensaje(1, robot2)
+        EnviarMensaje(1, robot3)
+      sino
+        si (id = 2)
+          EnviarMensaje(1, robot1)
+          EnviarMensaje(1, robot3)
+        sino
+          EnviarMensaje(1, robot1)
+          EnviarMensaje(1, robot2)
+      RecibirMensaje(listo, *)
+      RecibirMensaje(listo, *)
+
+    repetir 4
+      juntarPapeles
+      mover
+    juntarPapeles
+
+  fin
+  
+  robot coordinador
+  comenzar
+    EnviarMensaje(1, robot1)
+    EnviarMensaje(2, robot2)
+    EnviarMensaje(3, robot3)
+  fin
+ 
+variables
+  robot1, robot2, robot3: trabajador
+  jefe: coordinador
+
+comenzar
+  AsignarArea(jefe, coordinador)
+  AsignarArea(robot1, avenida1)
+  AsignarArea(robot2, avenida2)
+  AsignarArea(robot3, avenida3)
+  
+  Iniciar(jefe, 4,1)
+  Iniciar(robot1, 1,1)
+  Iniciar(robot2, 2,1)
+  Iniciar(robot3, 3,1)
+fin
