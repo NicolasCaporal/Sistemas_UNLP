@@ -39,6 +39,7 @@
     
     sb $s0, 5($s7) 
     sb $s1, 4($s7) 
+    lwu $s2, color($0)
     sw $s2, 0($s7) 
 
     daddi $t0, $zero, 5 
