@@ -31,8 +31,7 @@ for i in range(0, times):
 
     # Evitamos la divison por 0
     if (operator == '/') and (number_2 == 0):
-        while (number_2 == 0):
-            number_2 = randrange(10)
+        number_2 = randrange(9)+1
 
     # Se imprime la cuenta.
     print(f"\n {i+1}- ¿Cuánto es {number_1} {operator} {number_2}?")
