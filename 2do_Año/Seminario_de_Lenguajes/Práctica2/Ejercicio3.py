@@ -2,6 +2,8 @@
 # las palabras que comienzan con dicha letra. En caso que no se haya inrgesado un letra, indique el
 # error. Ver: módulo string
 
+import string
+
 jupyter_info = """ JupyterLab is a web-based interactive development
 environment for Jupyter notebooks,
 code, and data. JupyterLab is flexible: configure and arrange the user
@@ -14,7 +16,10 @@ ones.
 
 letra = input("Ingrese una letra: ").lower()
 
-for palabra in jupyter_info.split():
-    #print(palabra)
-    if palabra.lower()[0] == letra:
-        print(palabra)
+if letra in string.ascii_letters:
+    for palabra in jupyter_info.split():
+        if palabra.lower()[0] == letra:
+            print(palabra)
+
+else:
+    print("Error")
