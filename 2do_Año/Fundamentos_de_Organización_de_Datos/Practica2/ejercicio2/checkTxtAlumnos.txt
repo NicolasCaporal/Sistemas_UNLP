@@ -1,0 +1,46 @@
+12 6 8  González
+Juan
+15 10 1  Fernández
+María
+23 9 3  Pérez
+Luis
+45 3 0  Rodríguez
+Ana
+58 2 5  Sánchez
+Pedro
+69 4 7  González
+Sofía
+75 8 4  Fernández
+Carlos
+87 6 0  Pérez
+Marta
+93 1 7  Rodríguez
+Diego
+105 5 1  Sánchez
+Lucía
+116 2 3  González
+Manuel
+119 7 5  Fernández
+Sara
+129 4 6  Pérez
+Lucas
+137 10 8  Rodríguez
+Laura
+149 6 1  Sánchez
+Julia
+156 1 0  González
+Andrea
+162 8 2  Fernández
+Javier
+170 7 9  Pérez
+Mariana
+187 3 10  Rodríguez
+Hugo
+190 0 9  Sánchez
+Ana María
+199 9 3  González
+Julián
+209 2 1  Fernández
+Lorena
+220 5 7  Pérez
+Marcelo
