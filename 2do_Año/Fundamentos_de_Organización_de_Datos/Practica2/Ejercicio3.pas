@@ -22,7 +22,7 @@ type
         descripcion: string;
         stockDisp: integer;
         stockMin: integer; 
-        precio: integer;
+        precio: real;
     end;
 
     productos = file of producto;
@@ -58,7 +58,7 @@ var
 
 begin
 
-    sumaVendidos := 0;
+    
 
     assign(archivoProductos, 'productos.dat');
     reset(archivoProductos);
@@ -78,7 +78,8 @@ begin
             read(archivoProductos, prod_maestro);
             while (prod_maestro.codigo <> prod_detalle.codigo) do 
                 read(archivoProductos, prod_maestro);
-
+                
+            sumaVendidos := 0;
             while (prod_maestro.codigo = prod_detalle.codigo) do 
             begin
                 sumaVendidos := sumaVendidos + prod_detalle.cantVendida;
@@ -116,7 +117,7 @@ begin
         if (p.stockDisp < p.stockMin) then 
         begin
             writeln(archivoTxt, p.nombre);
-            writeln(archivoTxt, p.stockDisp, ' ', p.precio, ' ', p.descripcion); 
+            writeln(archivoTxt, p.stockDisp, '/', p.stockMin, ' ', p.precio, ' ', p.descripcion); 
         end;
     end;
     close(archivoBin);
