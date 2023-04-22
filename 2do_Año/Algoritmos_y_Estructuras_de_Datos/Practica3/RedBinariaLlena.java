@@ -14,7 +14,7 @@ problema.
 b) Cree una clase Java llamada RedBinariaLlena (dentro del paquete tp03.ejercicio4)
 donde implementará lo solicitado en el método retardoReenvio():int/ */
 
-package Ejercicio2pr3;
+package ejercicio4pr3;
 
 public class RedBinariaLlena {
 	private ArbolBinario<Integer> arbol;
