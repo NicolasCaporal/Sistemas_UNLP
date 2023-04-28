@@ -102,5 +102,43 @@ public class RecorridosAG {
 			}
 		}	
 	}
+	
+	/* Método que retorna una lista con los elementos impares del árbol “a” que sean mayores al valor “n”
+	pasados como parámetros, recorrido por niveles. */
+	public ListaGenerica< Integer > numerosImparesMayoresQuePorNiveles(ArbolGeneral<Integer> a, Integer n){
 		
+		ListaGenerica<Integer> l = new ListaEnlazadaGenerica<Integer>(); 
+
+		ColaGenerica<ArbolGeneral<Integer>> cola = new ColaGenerica<ArbolGeneral<Integer>>(); 
+		
+		if (!a.esVacio()) {
+			cola.encolar(a);
+			cola.encolar(null);
+		}
+		
+		while (!cola.esVacia()) {
+			ArbolGeneral<Integer> actual = cola.desencolar();
+			
+			if (actual != null) {
+				int dato = actual.getDato();
+				
+				if ((dato % 2 != 0) && (dato > n)) {
+					l.agregarFinal(dato);
+				}
+				
+				if (actual.tieneHijos()) {
+					ListaGenerica<ArbolGeneral<Integer>> hijos = actual.getHijos();
+					
+					hijos.comenzar();
+					while (!hijos.fin()) {
+						cola.encolar(hijos.proximo());
+					}
+				}
+				
+			} else if (!cola.esVacia()) {
+				cola.encolar(null);
+			}
+		}
+		return l;
+	}
 }
