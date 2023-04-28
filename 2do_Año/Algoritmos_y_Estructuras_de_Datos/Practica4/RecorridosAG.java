@@ -9,6 +9,7 @@ public class RecorridosAG {
 	pasados como parámetros, recorrido en preorden */
 	
 	public ListaGenerica<Integer> numerosImparesMayoresQuePreOrden (ArbolGeneral<Integer> a, Integer n){
+		
 		ListaGenerica<Integer> l = new ListaEnlazadaGenerica<Integer>();
 		
 		l.comenzar();
@@ -20,10 +21,10 @@ public class RecorridosAG {
 	private void numerosImparesPreOrden (ArbolGeneral<Integer> a, Integer n, ListaGenerica<Integer> l){
 		
 		if (!a.esVacio()) {
-			int actual = a.getDato();
+			int dato = a.getDato();
 	
-			if ((actual % 2 != 0) && (actual > n))
-				l.agregarFinal(actual);
+			if ((dato % 2 != 0) && (dato > n))
+				l.agregarFinal(dato);
 			
 			if (!a.esHoja()) {
 					ListaGenerica<ArbolGeneral<Integer>> hijos = a.getHijos();
@@ -71,4 +72,35 @@ public class RecorridosAG {
 		}
 	}
 	
+	/* Método que retorna una lista con los elementos impares del árbol “a” que sean mayores al valor “n”
+	pasados como parámetros recorrido en postorden. */
+	
+	public ListaGenerica<Integer> numerosImparesMayoresQuePostOrden (ArbolGeneral<Integer> a, Integer n){
+		
+		ListaGenerica<Integer> l = new ListaEnlazadaGenerica<Integer>();
+		
+		l.comenzar();
+		numerosImparesPostOrden(a, n, l);
+		
+		return l;
+	}
+	
+	private void numerosImparesPostOrden (ArbolGeneral<Integer> a, Integer n, ListaGenerica<Integer> l) {
+		if (!a.esVacio()) {
+			
+			if (!a.esHoja()) {
+				ListaGenerica<ArbolGeneral<Integer>> hijos = a.getHijos();
+				hijos.comenzar();
+				while (!hijos.fin()) {
+					numerosImparesPostOrden(hijos.proximo(), n, l);
+				}
+			}
+			
+			int dato = a.getDato();
+			if ((dato % 2 != 0) && (dato > n)){
+				l.agregarFinal(dato);
+			}
+		}	
+	}
+		
 }
