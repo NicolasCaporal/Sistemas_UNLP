@@ -8,7 +8,7 @@ devuelve en una estructura adecuada (sin ningún criterio de orden) todos los el
 a) Implemente el método realizando un recorrido InOrden.
 b) Implemente el método realizando un recorrido PostOrden. */
 
-package Ejercicio2pr3;
+package ejercicio3pr3;
 
 public class ContadorArbol {
 	private ArbolBinario<Integer> arbol;
