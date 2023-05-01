@@ -95,14 +95,85 @@ public class ArbolGeneral<T> {
 	}
 	
 
+	/* b) public int nivel(T dato) devuelve la profundidad o nivel del dato en el árbol. 
+	 * El nivel de un nodo es la longitud del único camino de la raíz al nodo */
+	
 	public Integer nivel(T dato) {
-		// falta implementar
+		
+		ColaGenerica<ArbolGeneral<T>> cola = new ColaGenerica<ArbolGeneral<T>>();
+		int nivelActual = 0;
+		T datoActual;
+		
+		if (!this.esVacio()) {
+			cola.encolar(this);
+			cola.encolar(null);
+			
+		}
+		ArbolGeneral<T> arbolActual;
+		while (!cola.esVacia()) {
+			 arbolActual = cola.desencolar();
+			
+			if (arbolActual != null) {
+				
+				datoActual = arbolActual.getDato();
+				
+				if (!(datoActual == dato) && (arbolActual.tieneHijos())) {
+
+					ListaGenerica<ArbolGeneral<T>> hijos = arbolActual.getHijos();
+					hijos.comenzar();
+					while (!hijos.fin()) {
+						cola.encolar(hijos.proximo());
+					}
+					
+				} else if (datoActual == dato) {
+					return nivelActual;
+				}
+				
+			} else if (!cola.esVacia()) {
+				cola.encolar(null);
+				nivelActual++;
+			}
+		}
 		return -1;
 	}
 
+	
 	public Integer ancho() {
-		// Falta implementar..
-		return 0;
+
+		ColaGenerica<ArbolGeneral<T>> cola = new ColaGenerica<ArbolGeneral<T>>();
+		 if (!this.esVacio()) {
+			 cola.encolar(this);
+			 cola.encolar(null);
+		 }
+		 
+		 int anchoActual = 0;
+		 int anchoMaximo = 0;
+		 ArbolGeneral<T> arbolActual;
+		 
+		 while (!cola.esVacia()) {
+			 
+			 arbolActual = cola.desencolar();
+			 
+			 if (arbolActual != null) {
+
+				 anchoActual++;
+
+				  if (arbolActual.tieneHijos()) {
+					  ListaGenerica<ArbolGeneral<T>> hijos = arbolActual.getHijos();
+					  hijos.comenzar();
+					  while (!hijos.fin()) {
+						  cola.encolar(hijos.proximo());
+					  }
+				  } 
+
+			 } else if (!cola.esVacia()) {
+				 anchoMaximo = maximo(anchoActual, anchoMaximo);
+				 cola.encolar(null);
+				 anchoActual = 0;
+			 }
+		 }
+		 
+		return anchoMaximo;
 	}
 	
 	private int maximo(int a, int b) {
