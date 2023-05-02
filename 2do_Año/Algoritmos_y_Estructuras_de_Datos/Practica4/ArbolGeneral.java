@@ -56,18 +56,12 @@ public class ArbolGeneral<T> {
 		return this.dato == null && !this.tieneHijos();
 	}
 
-	
-
 	public void eliminarHijo(ArbolGeneral<T> hijo) {
 		if (this.tieneHijos()) {
 			ListaGenerica<ArbolGeneral<T>> hijos = this.getHijos();
 			if (hijos.incluye(hijo)) 
 				hijos.eliminar(hijo);
 		}
-	}
-	
-	public ListaEnlazadaGenerica<T> preOrden() {
-		return null;
 	}
 
 	
@@ -137,9 +131,10 @@ public class ArbolGeneral<T> {
 		return -1;
 	}
 
+	/* c) public int ancho(): int la amplitud (ancho) de un árbol se define como la cantidad de nodos que
+	se encuentran en el nivel que posee la mayor cantidad de nodos. */
 	
 	public Integer ancho() {
-
 		ColaGenerica<ArbolGeneral<T>> cola = new ColaGenerica<ArbolGeneral<T>>();
 		 if (!this.esVacio()) {
 			 cola.encolar(this);
@@ -155,9 +150,7 @@ public class ArbolGeneral<T> {
 			 arbolActual = cola.desencolar();
 			 
 			 if (arbolActual != null) {
-
 				 anchoActual++;
-
 				  if (arbolActual.tieneHijos()) {
 					  ListaGenerica<ArbolGeneral<T>> hijos = arbolActual.getHijos();
 					  hijos.comenzar();
@@ -165,7 +158,6 @@ public class ArbolGeneral<T> {
 						  cola.encolar(hijos.proximo());
 					  }
 				  } 
-
 			 } else if (!cola.esVacia()) {
 				 anchoMaximo = maximo(anchoActual, anchoMaximo);
 				 cola.encolar(null);
@@ -183,5 +175,39 @@ public class ArbolGeneral<T> {
 			return b;
 	}
 	
+	/* Ejercicio 6
+	Se dice que un nodo n es ancestro de un nodo m si existe un camino desde n a m.
+	Se dice que un nodo n es descendiente de un nodo m si existe un camino desde m a n.
+	Implemente un método en la clase ArbolGeneral con la siguiente firma:
+	public Boolean esAncestro(T a, T b): devuelve true si el valor a es ancestro del valor b.
+	El cual determine si un valor a es ancestro de un valor b. */
 	
+	public Boolean esAncestro(T a, T b) {
+		boolean rta = false;
+		
+		ArbolGeneral<T> subArbolA = buscarSubarbolDeDato(a, this);
+		if (subArbolA != null) {
+			rta = (buscarSubarbolDeDato(b, subArbolA) != null);
+		}
+		
+
+		return rta;		
+	}
+	
+	private ArbolGeneral<T> buscarSubarbolDeDato (T dato, ArbolGeneral<T> a) {
+		ArbolGeneral<T> rta = null;
+		
+		if(a.getDato().equals(dato))
+			return a;
+		
+		else if (a.tieneHijos() && rta == null) {
+			ListaGenerica<ArbolGeneral<T>> hijos = a.getHijos();
+			hijos.comenzar();
+			while (!hijos.fin() && rta == null) {
+				rta = buscarSubarbolDeDato(dato, hijos.proximo());
+			}
+		}
+		
+		return rta;
+	}
 }
