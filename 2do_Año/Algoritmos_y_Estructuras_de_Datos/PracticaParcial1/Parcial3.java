@@ -4,7 +4,7 @@ Un arbol binario es creciente si para cada nivel de larbol la cantidad de nodos 
 hay en ese nivel es igual al valor del nivel +1. Realice un recorrido por niveles. */
 
 
-Public Class Parcial {
+public class Parcial {
 
     public Boolean esArbolCreciente(ArbolBinario<Integer arbol){
 

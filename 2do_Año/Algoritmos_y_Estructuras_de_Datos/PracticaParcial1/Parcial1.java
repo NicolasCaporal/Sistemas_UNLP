@@ -2,7 +2,7 @@
 Este metodo suma todos los numeros impares del arbol que son mayores al parametro recibido realizandolo en un recorrido posOrder.
 Firma public Integer sumaImparesPosOrdenMayorA(ArbolBinario<Integer> ab, int limite) */
 
-Public class Parcial{
+public class Parcial{
 
     public Integer sumalmparesPosOrderMayorA(ArbolBinario<Integer> ab, int limite){
         int suma = 0;

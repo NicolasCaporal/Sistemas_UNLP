@@ -4,8 +4,6 @@
  Si existen varios caminos que cumplen la condicion, el metodo debe devolver el primer camino que encuentre.
  Firma: ListaGenerica<Integer> resolver(ArbolBinario<Integer> ab, int min)*/
 
-package practica4;
-
 public class Parcial4 {
 	
 	    public  ListaGenerica<Integer> resolver (ArbolBinario<Integer> ab, int min){
