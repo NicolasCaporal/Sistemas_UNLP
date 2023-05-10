@@ -166,7 +166,7 @@ begin
     begin
 
         casosL := 0;
-        localidadActual:= r.info.codigoL;
+        localidadActual := r.info.codigoL;
         while (localidadActual = r.info.codigoL) do 
         begin
             casosL := casosL + r.info.casosActivos;
