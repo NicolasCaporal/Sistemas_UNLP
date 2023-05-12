@@ -48,6 +48,7 @@ type
     arrayInformacion = array[1..cantDetalles] of archivoInfo;
     arrayRegistrosInfo = array[1..cantDetalles] of informacion_localidad;
 
+
 procedure leerDetalle(var a: archivoInfo; var d: informacion_localidad);
 begin
 
