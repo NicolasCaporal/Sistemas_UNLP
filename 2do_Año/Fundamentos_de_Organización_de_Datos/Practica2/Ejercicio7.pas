@@ -76,7 +76,7 @@ begin
     for i := 1 to cantDetalles do 
     begin
         leerDetalle(detalles[i], registro);
-        if (registro.codigo < min) then 
+        if (registro.codigo <= min) then 
         begin
             min := registro.codigo;
             iMin := i;
@@ -106,7 +106,6 @@ begin
     begin
         reset(detalles[i]);
     end;
-    
     reset(maestro);
 
     indiceMinimo := buscarMinimoDetalle(detalles);
@@ -122,19 +121,16 @@ begin
         end;
         seek(maestro, filePos(maestro) - 1);
 
+
         registroDetalleActual := registroDetalle;
-        while (registroDetalle.codigo = registroDetalleActual.codigo) do 
+        while ((registroDetalle.codigo <> valorEspecial) and (registroDetalle.codigo = registroDetalleActual.codigo)) do 
         begin
-            registroMaestro.stockAct := registroMaestro.stockAct - registroDetalle.unidadesVendidas; 
-            indiceMinimo := buscarMinimoDetalle(detalles); //Dudoso
+            registroMaestro.stockAct := registroMaestro.stockAct - registroDetalle.unidadesVendidas;
+            indiceMinimo := buscarMinimoDetalle(detalles); 
             leerDetalle(detalles[indiceMinimo], registroDetalle);
         end;
-        write(maestro, registroMaestro);
 
-        if (registroDetalle.codigo <> valorEspecial) then 
-        begin
-            seek(detalles[indiceMinimo], filePos(detalles[indiceMinimo]) -1); 
-        end;
+        write(maestro, registroMaestro);
 
     end;
 
@@ -193,9 +189,8 @@ begin
                 for i := 1 to cantDetalles do 
                 begin
                     str(i, iStr);
-                    assign(detalles[i], 'detalle' + iStr + '.dat');
+                    assign(detalles[i], 'ventas' + iStr + '.dat');
                 end;
-
                 actualizarMaestro(maestro, detalles);
            end;
         
