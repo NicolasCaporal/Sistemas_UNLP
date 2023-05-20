@@ -1,8 +1,10 @@
 { 8. Se cuenta con un archivo que posee información de las ventas que realiza una empresa a
 los diferentes clientes. Se necesita obtener un reporte con las ventas organizadas por
 cliente. Para ello, se deberá informar por pantalla: los datos personales del cliente, el total
-mensual (mes por mes cuánto compró) y finalmente el monto total comprado en el año por el cliente.
-Además, al finalizar el reporte, se debe informar el monto total de ventas obtenido por la empresa.
+mensual (mes por mes cuánto compró) y finalmente el monto total comprado en el año por el
+cliente.
+Además, al finalizar el reporte, se debe informar el monto total de ventas obtenido por la
+empresa.
 El formato del archivo maestro está dado por: cliente (cod cliente, nombre y apellido), año,
 mes, día y monto de la venta.
 El orden del archivo está dado por: cod cliente, año y mes.
@@ -83,7 +85,7 @@ begin
 
                 totalMesActual := 0;
                 mesActual := venta.fecha.m;
-                write('Gastado en el mes ', mesActual, ' del año ', anioActual, ':');
+                write('Gastado en el mes ', mesActual, ' del año ', anioActual, ': ');
 
                 while ((not EOF(archivo)) and (mesActual = venta.fecha.m) and (anioActual = venta.fecha.a) and (clienteActual.codigo = venta.cliente.codigo)) do 
                 begin
@@ -91,11 +93,12 @@ begin
                     read(archivo, venta);
                 end;
 
-                writeln(totalMesActual);
+                writeln(totalMesActual:2:2);
                 totalAnio := totalAnio + totalMesActual;
 
             end;
-            writeln('En el año ', anioAnterior, ' gastó en total ', totalAnio);
+            writeln('En el año ', anioAnterior, ' gastó en total ', totalAnio:2:2);
+            writeln;
             totalEmpresa := totalEmpresa + totalAnio;
 
         end;
@@ -105,7 +108,7 @@ begin
     end;
 
     writeln;
-    writeln('La empresa en total ingresó: ', totalEmpresa);
+    writeln('La empresa en total ingresó: ', totalEmpresa:2:2);
 
     close(archivo);
 
