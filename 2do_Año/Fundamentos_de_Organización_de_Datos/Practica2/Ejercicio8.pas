@@ -13,6 +13,9 @@ compras. }
 
 program ejercicio8_practica2;
 
+const 
+    valorEspecial = 9999;
+
 type 
 
     dia = 1..31;
@@ -37,6 +40,13 @@ type
 
     archivoVentas = file of dato;
 
+procedure leerDato (var a: archivoVentas; var rta: dato);
+begin
+    if (not EOF(a)) then 
+        read(a, rta)
+    else 
+        rta.cliente.codigo := valorEspecial;
+end;
 
 procedure imprimirFecha (f: registroFecha);
 begin
@@ -66,31 +76,31 @@ begin
     reset(archivo);
     totalEmpresa := 0;
 
-    read(archivo, venta);
-    while (not EOF(archivo)) do 
+    leerDato(archivo, venta);
+    while (venta.cliente.codigo <> valorEspecial) do 
     begin 
 
         clienteActual := venta.cliente;
         writeln;
         imprimirCliente(clienteActual);
 
-        while ((not EOF(archivo)) and (clienteActual.codigo = venta.cliente.codigo)) do 
+        while ((clienteActual.codigo = venta.cliente.codigo)) do 
         begin
 
             totalAnio := 0;
             anioActual := venta.fecha.a;
             anioAnterior := anioActual;
-            while ((not EOF(archivo)) and (anioActual = venta.fecha.a) and (clienteActual.codigo = venta.cliente.codigo)) do 
+            while ((anioActual = venta.fecha.a) and (clienteActual.codigo = venta.cliente.codigo)) do 
             begin 
 
                 totalMesActual := 0;
                 mesActual := venta.fecha.m;
                 write('Gastado en el mes ', mesActual, ' del año ', anioActual, ': ');
 
-                while ((not EOF(archivo)) and (mesActual = venta.fecha.m) and (anioActual = venta.fecha.a) and (clienteActual.codigo = venta.cliente.codigo)) do 
+                while ((mesActual = venta.fecha.m) and (anioActual = venta.fecha.a) and (clienteActual.codigo = venta.cliente.codigo)) do 
                 begin
                     totalMesActual := totalMesActual + venta.monto;
-                    read(archivo, venta);
+                    leerDato(archivo, venta);
                 end;
 
                 writeln(totalMesActual:2:2);
