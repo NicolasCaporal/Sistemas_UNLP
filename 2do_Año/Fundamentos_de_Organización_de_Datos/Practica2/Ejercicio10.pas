@@ -52,6 +52,7 @@ var
     a: text;
     i: integer;
     valor: real;
+    
 begin
     assign(a, 'valorHoraPorCategoria.txt');
     reset(a);
