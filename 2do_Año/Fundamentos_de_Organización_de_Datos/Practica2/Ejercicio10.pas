@@ -16,6 +16,7 @@ Monto total por división: ____
 
 División
 .................
+
 Total horas departamento: ____
 Monto total departamento: ____
 
