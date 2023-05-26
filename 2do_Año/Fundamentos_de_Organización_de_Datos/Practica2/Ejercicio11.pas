@@ -30,6 +30,8 @@ type
 
     detalle = file of dato;
 
+
+
 procedure leerDetalle(var a: detalle; var r: dato);
 begin
     if (not EOF(a)) then 
@@ -38,10 +40,12 @@ begin
         r.provincia := valorEspecial;
 end;
 
+
 function encontrarMinimo (var a1, a2: detalle): dato;
 var 
     r1, r2: dato;
     min: dato;
+
 begin
     leerDetalle(a1, r1);
     leerDetalle(a2, r2);
@@ -60,6 +64,7 @@ begin
     encontrarMinimo := min;
 end;
 
+
 function buscarDetalleActualEnMaestro (var archivoMaestro: maestro; provincia: string): provincia;
 var 
     r: provincia;
@@ -73,7 +78,6 @@ begin
 
     buscarDetalleActualEnMaestro := r;
 end;
-
 
 
 procedure actualizarMaestro (var archivoMaestro: maestro; var archivoD1, archivoD2: detalle);
