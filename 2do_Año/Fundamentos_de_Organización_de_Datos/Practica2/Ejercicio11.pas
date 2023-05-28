@@ -53,12 +53,14 @@ begin
     if (r1.provincia <= r2.provincia) then 
     begin
         min := r1;
-        seek(a2, filePos(a1) - 1);
+        if (r2.provincia <> valorEspecial) then
+            seek(a2, filePos(a2) - 1);
     end
     else 
     begin
         min := r2; 
-        seek(a1, filePos(a1) - 1);
+        if (r1.provincia <> valorEspecial) then
+            seek(a1, filePos(a1) - 1);
     end;
 
     encontrarMinimo := min;
@@ -71,6 +73,7 @@ var
 
 begin 
     read(archivoMaestro, r);
+
     while (r.nombre <> provincia) do
     begin
         read(archivoMaestro, r);
@@ -92,7 +95,7 @@ begin
     reset(archivoD2);
 
     registroDetalle := encontrarMinimo(archivoD1, archivoD2);
-
+    
     while (registroDetalle.provincia <> valorEspecial) do 
     begin
 
@@ -100,16 +103,14 @@ begin
 
         registroMaestro := buscarDetalleActualEnMaestro(archivoMaestro, provinciaActual);
         seek(archivoMaestro, filePos(archivoMaestro) - 1);
-
-
+        
         while(provinciaActual = registroDetalle.provincia) do
         begin
-
+            
             registroMaestro.cantAlfabetizados := registroMaestro.cantAlfabetizados + registroDetalle.cantAlfabetizados;
             registroMaestro.cantEncuestados := registroMaestro.cantEncuestados + registroDetalle.cantEncuestados;
 
             registroDetalle := encontrarMinimo(archivoD1, archivoD2);
-
         end;
 
         write(archivoMaestro, registroMaestro);
@@ -120,7 +121,7 @@ begin
     close(archivoD1);
     close(archivoD2);
 
-    writeln('Txt generado correctamente.');
+    writeln('Archivo actualizado correctamente.');
 end;
 
 
@@ -138,4 +139,5 @@ begin
     assign(archivoAgencia2, 'detalle2.dat');
 
     actualizarMaestro(archivoMaestro, archivoAgencia1, archivoAgencia2);
+
 end.
