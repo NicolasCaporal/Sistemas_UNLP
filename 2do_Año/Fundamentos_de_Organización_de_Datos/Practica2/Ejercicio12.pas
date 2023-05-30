@@ -7,7 +7,7 @@ siguientes criterios: año, mes, dia e idUsuario.
 
 Se debe realizar un procedimiento que genere un informe en pantalla, para ello se indicará
 el año calendario sobre el cual debe realizar el informe. 
-El mismo debe respetar el formato mostrado a continuación: 
+El mismo debe respetar el formato mostrado a continuación:
 Año : ---
 Mes:-- 1
 día:-- 1
