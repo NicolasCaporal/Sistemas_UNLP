@@ -7,7 +7,7 @@ necesarios para actualizar el archivo maestro a partir de los dos archivos detal
 NOTA: Los archivos están ordenados por nombre de provincia y en los archivos detalle
 pueden venir 0, 1 ó más registros por cada provincia. }
 
-program ejercicio11_practica2;
+program ejercicio11_practica2; 
 
 const 
     valorEspecial = '~~~~~';
