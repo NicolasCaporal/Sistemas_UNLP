@@ -114,7 +114,9 @@ var
     actual: informacion;
     mesActual: 1..12;
     diaActual: 1..31;
+    idActual: integer;
     
+    tiempoUsuarioDia: real;
     tiempoTotalDia: real;
     tiempoTotalMes: real;
     tiempoTotalAnio: real;
@@ -133,7 +135,7 @@ begin
         writeln('MES ', mesActual);
         tiempoTotalMes := 0;
 
-        while (mesActual = actual.f.m) do 
+        while ((anio = actual.f.a) and (mesActual = actual.f.m)) do 
         begin
             
             diaActual := actual.f.d;
@@ -141,30 +143,38 @@ begin
             writeln('DIA ', diaActual);
             tiempoTotalDia := 0;
 
-            while (diaActual = actual.f.d) do
+            while ((anio = actual.f.a) and (mesActual = actual.f.m) and (diaActual = actual.f.d)) do
             begin 
 
+                idActual := actual.id;
                 writeln('idUsuario ', actual.id);
-                writeln('Tiempo de acceso en el dia ', diaActual,' mes ', mesActual, ' = ', actual.tiempoAcceso);
+                tiempoUsuarioDia := 0;
+
+                while ((anio = actual.f.a) and (mesActual = actual.f.m) and (diaActual = actual.f.d) and (idActual = actual.id)) do
+                begin 
+                    tiempoUsuarioDia := tiempoUsuarioDia + actual.tiempoAcceso;
+                    leerInformacion(a, actual);
+                end;
+
+                writeln('Tiempo de acceso en el dia ', diaActual,' mes ', mesActual, ' = ', tiempoUsuarioDia:2:2);
                 writeln;
 
-                tiempoTotalDia := tiempoTotalDia + actual.tiempoAcceso;
-
-                leerInformacion(a, actual);
+                tiempoTotalDia := tiempoTotalDia + tiempoUsuarioDia;
+                
 
             end; 
 
-            writeln('Tiempo total acceso dia', diaActual, ' mes ', mesActual, ' = ', tiempoTotalDia);
+            writeln('Tiempo total acceso dia', diaActual, ' mes ', mesActual, ' = ', tiempoTotalDia:2:2);
             tiempoTotalMes := tiempoTotalMes + tiempoTotalDia;
 
         end;
 
-        writeln('Total tiempo de acceso en el mes ', mesActual, ' = ', tiempoTotalMes);
+        writeln('Total tiempo de acceso en el mes ', mesActual, ' = ', tiempoTotalMes:2:2);
         tiempoTotalAnio := tiempoTotalAnio + tiempoTotalMes;
 
     end;
 
-    writeln('Total tiempo de acceso en el año ', anio, ' = ', tiempoTotalAnio);
+    writeln('Total tiempo de acceso en el año ', anio, ' = ', tiempoTotalAnio:2:2);
 
 end;
 
