@@ -42,7 +42,7 @@ type
 
     informacionProv = record 
         codigoPcia: integer;
-        nombreLoc: integer;
+        codigoLoc: integer;
         cantVCL: integer;
         cantVC: integer;
         cantVCA: integer;
@@ -56,10 +56,10 @@ type
 
 
 
-procedure leerDetalle (var a: detelle; var r: informacionProv);
+procedure leerDetalle (var a: detalle; var r: informacionProv);
 begin
     if (not EOF(a)) then 
-        read(a, r);
+        read(a, r)
     else 
         r.codigoPcia := valorEspecial;
 end;
@@ -71,20 +71,20 @@ var
     registro: informacionProv;
 
 begin
-    minimoCodigoPcia := valorEspecial;
+    minimo.CodigoPcia := valorEspecial;
 
     for i := 1 to cantProvincias do 
     begin
         registro := aRegistros[i];
-        if ((registros.codigoPcia < minimo.codigoPcia) or ((registro.codigoPcia = minimo.codigoPcia) and (registro.codigoLoc < minimo.codigoLoc))) then 
+        if ((registro.codigoPcia < minimo.codigoPcia) or ((registro.codigoPcia = minimo.codigoPcia) and (registro.codigoLoc < minimo.codigoLoc))) then 
         begin 
-            minimo := registro[i];
+            minimo := registro;
             indiceMinimo := i;
-        end
+        end;
     end;
 
     if (minimo.codigoPcia <> valorEspecial) then 
-        leerDetalle(arregloArchivos[indiceMinimo], aRegistros[indiceMinimo]);
+        leerDetalle(aArchivos[indiceMinimo], aRegistros[indiceMinimo]);
 
 end;
 
@@ -97,7 +97,7 @@ var
     aRegistrosD: arregloRegistros;
     indiceActual: integer;
 
-    registroM: integer;
+    registroM: informacionONG;
 
     provinciaActual: integer;
     localidadActual: integer;
@@ -116,26 +116,26 @@ begin
     begin
 
         provinciaActual := registroDetalleActual.codigoPcia;
-        read(archivoM, registroMaestro);
-        while((registroMaestro.codigoPcia <> provinciaActual) and (registroMaestro.codigoLoc <> registroDetalleActual.codigoLoc)) do 
+        read(archivoM, registroM);
+        while((registroM.codigoPcia <> provinciaActual) and (registroM.codigoLoc <> registroDetalleActual.codigoLoc)) do 
         begin
-            read(archivoM, registroMaestro);
+            read(archivoM, registroM);
         end;
-        seek(archivoMaestro, filePos(archivoMaestro) - 1);
+        seek(archivoM, filePos(archivoM) - 1);
 
 
-        codigoLoc := registroDetalleActual.codigoLoc;
+        localidadActual := registroDetalleActual.codigoLoc;
         while ((registroDetalleActual.codigoPcia = provinciaActual) and (registroDetalleActual.codigoLoc = localidadActual)) do
         begin
-            registroMaestro.cantVSL := archivoM.cantVSL - registroDetalleActual.VCL;
-            registroMaestro.cantVSG := archivoM.cantVSG - registroDetalleActual.VCG;
-            registroMaestro.cantVDC := archivoM.cantVDC - registroDetalleActual.cantVC;
-            registroMaestro.cantVSA := archivoM.cantVSA - registroDetalleActual.cantVCA;
-            registroMaestro.cantVSS := archivoM.cantVSS - registroDetalleActual.cantES;
+            registroM.cantVSL := registroM.cantVSL - registroDetalleActual.cantVCL;
+            registroM.cantVSG := registroM.cantVSG - registroDetalleActual.cantVCG;
+            registroM.cantVDC := registroM.cantVDC - registroDetalleActual.cantVC;
+            registroM.cantVSA := registroM.cantVSA - registroDetalleActual.cantVCA;
+            registroM.cantVSS := registroM.cantVSS - registroDetalleActual.cantES;
 
             leerDetalle(aDetalles[indiceActual], registroDetalleActual);
         end;
-        write(archivoM, registroMaestro);
+        write(archivoM, registroM);
 
 
         if (registroDetalleActual.codigoPcia <> valorEspecial) then 
@@ -163,7 +163,7 @@ begin
     for i := 1 to cantProvincias do 
     begin
         str(i, iStr);
-        assign(aDetalles[i], 'detalle', iStr, '.dat'); 
+        assign(aDetalles[i], 'detalle' + iStr + '.dat'); 
     end;
 
 end.
