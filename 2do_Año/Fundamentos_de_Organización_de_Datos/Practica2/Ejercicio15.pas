@@ -22,7 +22,7 @@ chapa (las localidades pueden o no haber sido actualizadas). }
 program ejercicio15_practica2;
 
 const 
-    cantProvincias = 4;
+    cantProvincias = 3;
     valorEspecial = 9999;
 
 type 
@@ -71,7 +71,9 @@ var
     registro: informacionProv;
 
 begin
+
     minimo.CodigoPcia := valorEspecial;
+    indiceMinimo := valorEspecial;
 
     for i := 1 to cantProvincias do 
     begin
@@ -83,8 +85,10 @@ begin
         end;
     end;
 
-    if (minimo.codigoPcia <> valorEspecial) then 
-        leerDetalle(aArchivos[indiceMinimo], aRegistros[indiceMinimo]);
+    if (indiceMinimo <> valorEspecial) then 
+    begin
+        leerDetalle(aArchivos[indiceMinimo], aRegistros[indiceMinimo]); 
+    end;
 
 end;
 
@@ -110,21 +114,21 @@ begin
         leerDetalle(aDetalles[i], aRegistrosD[i]);
     end;
 
-
     buscarMinimo(aDetalles, aRegistrosD, registroDetalleActual, indiceActual);
     while (registroDetalleActual.codigoPcia <> valorEspecial) do 
     begin
 
         provinciaActual := registroDetalleActual.codigoPcia;
+        localidadActual := registroDetalleActual.codigoLoc;
+
         read(archivoM, registroM);
-        while((registroM.codigoPcia <> provinciaActual) and (registroM.codigoLoc <> registroDetalleActual.codigoLoc)) do 
+        while((registroM.codigoPcia <> provinciaActual) or (registroM.codigoLoc <> localidadActual)) do 
         begin
             read(archivoM, registroM);
         end;
         seek(archivoM, filePos(archivoM) - 1);
 
 
-        localidadActual := registroDetalleActual.codigoLoc;
         while ((registroDetalleActual.codigoPcia = provinciaActual) and (registroDetalleActual.codigoLoc = localidadActual)) do
         begin
             registroM.cantVSL := registroM.cantVSL - registroDetalleActual.cantVCL;
@@ -135,17 +139,20 @@ begin
 
             leerDetalle(aDetalles[indiceActual], registroDetalleActual);
         end;
-        write(archivoM, registroM);
 
-
-        if (registroDetalleActual.codigoPcia <> valorEspecial) then 
-        begin
+        if (registroDetalleActual.codigoPcia <> valorEspecial) then
             seek(aDetalles[indiceActual], filePos(aDetalles[indiceActual]) - 1);
-            aRegistrosD[indiceActual] := registroDetalleActual;
-        end;
 
+        write(archivoM, registroM);
+        
         buscarMinimo(aDetalles, aRegistrosD, registroDetalleActual, indiceActual);
     end;
+
+    for i := 1 to cantProvincias do 
+    begin
+        close(aDetalles[i]); 
+    end;
+    close(archivoM);
 end;
 
 
@@ -159,11 +166,11 @@ var
 
 begin
     assign(archivoMaestro, 'maestro.dat');
-
     for i := 1 to cantProvincias do 
     begin
         str(i, iStr);
         assign(aDetalles[i], 'detalle' + iStr + '.dat'); 
     end;
 
+    actualizarMaestro(archivoMaestro, aDetalles);
 end.
