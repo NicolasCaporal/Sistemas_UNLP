@@ -19,6 +19,9 @@ existen en el sistema. }
 
 program ejercicio13_practica2;
 
+const 
+    valorEspecial = 9999;
+
 type 
     log = record
         nroUsuario: integer;
@@ -38,6 +41,15 @@ type
 
     archivo = file of mail;
 
+
+
+procedure leerDetalle(var a: archivo; var r: mail);
+begin
+    if (not EOF(a)) then 
+        read(a, r)
+    else 
+        r.nroUsuario := valorEspecial;
+end;
 
 
 procedure actualizarLogs (var aLogs: logs; var aInfoDia: archivo);
@@ -66,7 +78,7 @@ begin
         while (usuarioActual = mailActual.nroUsuario) do 
         begin
             logActual.cantidadMailEnviados := logActual.cantidadMailEnviados + 1;
-            leerDetalle(mailActual); 
+            leerDetalle(aInfoDia, mailActual); 
         end;
 
         write(aLogs, logActual);
@@ -112,16 +124,36 @@ begin
     close(archivoTexto);
 end;
 
+
+function menu (): integer;
+var
+    rta: integer;
+begin
+    writeln('OPCIONES');
+    writeln('1. Actualizar archivo maestro.');
+    writeln('2. Generar informe.txt');
+    write('Ingrese el numero de la opcion deseada: ');
+    readln(rta);
+    menu := rta;
+
+end;
+
+
+
 { Programa Principal }
 var 
     archivoLogs: logs;
-    
+    archivoDiaN: archivo;
+
 begin 
 
     assign(archivoLogs, 'logmail.dat');
     assign(archivoDiaN, 'dia.dat');
 
-    actualizarLogs(archivoLogs, archivoDiaN);
-
-    writeln('Termino');
+    case menu() of
+        1: actualizarLogs(archivoLogs, archivoDiaN);
+        2: generarTxt(archivoDiaN);
+    end;
+    
+    writeln('Fin del programa');
 end. 
