@@ -1,3 +1,10 @@
+# Deberán resolver y grabar una explicación (mostrando la pantalla de la computadora) que cubra los siguientes aspectos:
+# 1- Mostrar la ejecución del código original dado en el entorno que habitualmente usen para el desarrollo de sus trabajos prácticos (puede ser VSCode o PyCharm por ejemplo) donde muestren la situación planteada:  si hay algún error o una salida específica
+# 2- Dar una explicación de por qué se produce esa situación planteada en el enunciado;
+# 3- Modificar el codigo de manera tal que no termine en errror y mostrar la ejecución del código modificado de acuerdo a lo solicitado en el enunciado.
+# 4- Mostrar la ejecución de la solución propuesta por chatGPT y una comparación con la propia.  
+
+
 import json
 import csv
 import  clases 
