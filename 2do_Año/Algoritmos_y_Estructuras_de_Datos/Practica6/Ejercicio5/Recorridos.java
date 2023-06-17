@@ -25,3 +25,14 @@ public class Recorridos <T> {
 		}
 		
 	}
+
+
+	public ListaGenerica<Vertice<T>> bfs (Grafo<T> grafo){
+		boolean[]marca = new boolean[grafo.listaDeVertices().tamanio() + 1];
+		ListaEnlazadaGenerica<Vertice<T>> lis = new ListaEnlazadaGenerica<Vertice<T>>();
+		for (int i=1; i<=grafo.listaDeVertices().tamanio(); i++) {
+			if (!marca[i])
+				bfs(i,grafo,lis,marca);
+		}
+		return lis;
+	}
