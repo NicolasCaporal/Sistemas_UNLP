@@ -1,9 +1,9 @@
 package practica6;
 
-public class mapa {
+public class Mapa {
 	private Grafo<String> mapa;
 	
-	public mapa (Grafo<String> grafo) {
+	public Mapa (Grafo<String> grafo) {
 		this.mapa = grafo;
 	}
 	
@@ -21,9 +21,11 @@ public class mapa {
 		if (verticeCiudad1 != null && verticeCiudad2 != null) {	
 			boolean encontro = false;
 			boolean[] marca = new boolean[mapa.listaDeVertices().tamanio()+1];
+			lista.agregarFinal(ciudad1);
+
 			
-			for (int i = 1; i <= mapa.listaDeVertices().tamanio()+1; i++) {
-				if (!marca[i]){
+			for (int i = 1; i <= mapa.listaDeVertices().tamanio(); i++) {
+				if (!marca[i] && !encontro){
 					encontro = dfs(verticeCiudad1.getPosicion(), mapa, lista, marca, ciudad2) ;
 				}
 			}
@@ -44,7 +46,7 @@ public class mapa {
 	
 	private Vertice<String> buscarCiudad(ListaGenerica<Vertice<String>> vertices, String ciudad){
 		vertices.comenzar();
-		Vertice<String> ciudadActual = vertices.proximo();
+		Vertice<String> ciudadActual;
 		while(!(vertices.fin())) {
 			ciudadActual = vertices.proximo();
 			if (ciudadActual.dato().equals(ciudad)){
@@ -63,18 +65,20 @@ public class mapa {
 		if (vertice.dato().equals(ciudad2)) {
 			encontro = true;
 		} else {
-			lista.agregarFinal(vertice.dato());
-			
+						
 			ListaGenerica<Arista<String>> adyacentes = mapa.listaDeAdyacentes(vertice); 
+			adyacentes.comenzar();
+			
 			adyacentes.comenzar();
 			while (!adyacentes.fin() && (!encontro)) {
 				Vertice<String> destino = adyacentes.proximo().verticeDestino();
 				int j = destino.getPosicion();
-
+				
 				if (!marca[j]) {
 					lista.agregarFinal(destino.dato());
-					dfs(j, mapa, lista, marca, ciudad2);
-					lista.eliminarEn(lista.tamanio());
+					encontro = dfs(j, mapa, lista, marca, ciudad2);
+					if (!lista.elemento(lista.tamanio()).equals(ciudad2))
+						lista.eliminarEn(lista.tamanio());
 				}
 			}
 
