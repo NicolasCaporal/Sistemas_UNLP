@@ -14,8 +14,8 @@ public class Mapa {
 	public ListaGenerica<String> devolverCamino (String ciudad1, String ciudad2){
 		ListaGenerica<String> lista = new ListaEnlazadaGenerica<String>();
 		
-		Vertice<String> verticeCiudad1 = buscarCiudad(mapa.listaDeVertices(), ciudad1);		
-		Vertice<String> verticeCiudad2 = buscarCiudad(mapa.listaDeVertices(), ciudad2);
+		Vertice<String> verticeCiudad1 = buscarCiudades(mapa.listaDeVertices(), ciudad1, ciudad2);		
+
 		
 		if (verticeCiudad1 != null && verticeCiudad2 != null) {	
 			boolean encontro = false;
@@ -44,13 +44,14 @@ public class Mapa {
 		return lista;
 	}	
 	
-	private Vertice<String> buscarCiudad(ListaGenerica<Vertice<String>> vertices, String ciudad){
+	private int[] buscarCiudades(ListaGenerica<Vertice<String>> vertices, String ciudad, String ciudad2){
 		vertices.comenzar();
+		int[] rta = new int[2];
 		Vertice<String> ciudadActual;
 		while(!(vertices.fin())) {
 			ciudadActual = vertices.proximo();
 			if (ciudadActual.dato().equals(ciudad)){
-				return ciudadActual;
+				[]
 			}
 		}
 		return null;
@@ -96,8 +97,8 @@ public class Mapa {
 		
 		ListaGenerica<String> lista = new ListaEnlazadaGenerica<String>();
 		
-		Vertice<String> verticeCiudad1 = buscarCiudad(mapa.listaDeVertices(), ciudad1);		
-		Vertice<String> verticeCiudad2 = buscarCiudad(mapa.listaDeVertices(), ciudad2);
+		Vertice<String> verticeCiudad1 = buscarCiudades(mapa.listaDeVertices(), ciudad1, ciudad2);		
+
 		
 		if (verticeCiudad1 != null && verticeCiudad2 != null) {	
 			boolean encontro = false;
@@ -171,8 +172,7 @@ public class Mapa {
 	public ListaGenerica<String> caminoMasCorto (String ciudad1, String ciudad2){
 		
 				
-		Vertice<String> verticeCiudad1 = buscarCiudad(mapa.listaDeVertices(), ciudad1);		
-		Vertice<String> verticeCiudad2 = buscarCiudad(mapa.listaDeVertices(), ciudad2);
+		Vertice<String> verticeCiudad1 = buscarCiudades(mapa.listaDeVertices(), ciudad1, ciudad2);	
 
 		int costo[] = new int[mapa.listaDeVertices().tamanio()+1]; //D
 		int anterior[] = new int[mapa.listaDeVertices().tamanio()+1]; //P
