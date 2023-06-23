@@ -14,10 +14,10 @@ public class Mapa {
 	public ListaGenerica<String> devolverCamino (String ciudad1, String ciudad2){
 		ListaGenerica<String> lista = new ListaEnlazadaGenerica<String>();
 		
-		Vertice<String> verticeCiudad1 = buscarCiudades(mapa.listaDeVertices(), ciudad1, ciudad2);		
+		int[] verticesCiudades = buscarCiudades(mapa.listaDeVertices(), ciudad1, ciudad2);		
 
 		
-		if (verticeCiudad1 != null && verticeCiudad2 != null) {	
+		if (verticesCiudades != null) {	
 			boolean encontro = false;
 			boolean[] marca = new boolean[mapa.listaDeVertices().tamanio()+1];
 			
@@ -46,15 +46,26 @@ public class Mapa {
 	
 	private int[] buscarCiudades(ListaGenerica<Vertice<String>> vertices, String ciudad, String ciudad2){
 		vertices.comenzar();
+
+		int nro = 0;
 		int[] rta = new int[2];
+
 		Vertice<String> ciudadActual;
 		while(!(vertices.fin())) {
 			ciudadActual = vertices.proximo();
 			if (ciudadActual.dato().equals(ciudad)){
-				[]
+				rta[0] = ciudadActual;
+				nro += 1;
+			} else if (cciudadActual.dato().equals(ciudad2)){
+				rta[1] = ciudadActual;
+				nro += 1;
 			}
 		}
-		return null;
+
+		if (nro = 2)
+			return rta;
+		else
+			return null;
 	}
 	
 	
@@ -97,10 +108,10 @@ public class Mapa {
 		
 		ListaGenerica<String> lista = new ListaEnlazadaGenerica<String>();
 		
-		Vertice<String> verticeCiudad1 = buscarCiudades(mapa.listaDeVertices(), ciudad1, ciudad2);		
+		int[] verticesCiudades = buscarCiudades(mapa.listaDeVertices(), ciudad1, ciudad2);		
 
 		
-		if (verticeCiudad1 != null && verticeCiudad2 != null) {	
+		if (verticesCiudades != null) {	
 			boolean encontro = false;
 			boolean[] marca = new boolean[mapa.listaDeVertices().tamanio()+1]; 
 			
@@ -172,14 +183,14 @@ public class Mapa {
 	public ListaGenerica<String> caminoMasCorto (String ciudad1, String ciudad2){
 		
 				
-		Vertice<String> verticeCiudad1 = buscarCiudades(mapa.listaDeVertices(), ciudad1, ciudad2);	
+		int[] verticesCiudades = buscarCiudades(mapa.listaDeVertices(), ciudad1, ciudad2);	
 
 		int costo[] = new int[mapa.listaDeVertices().tamanio()+1]; //D
 		int anterior[] = new int[mapa.listaDeVertices().tamanio()+1]; //P
 		int iCiudad1 = verticeCiudad1.getPosicion();
 		boolean[] marca = new boolean[mapa.listaDeVertices().tamanio()+1];
 		
-		if (verticeCiudad1 != null && verticeCiudad2 != null) {		
+		if (verticesCiudades != null) {		
 			dijkstra(iCiudad1, costo, anterior, marca);
 		} else {
 			System.out.println("Alguna de las 2 ciudades no existe");
