@@ -7,6 +7,7 @@ public class Mapa {
 		this.mapa = grafo;
 	}
 	
+
 	
 	/* El método devolverCamino (String ciudad1, String ciudad2): ListaGenerica<String> //
 	Retorna la lista de ciudades que se deben atravesar para ir de ciudad1 a ciudad2 en caso que se pueda
@@ -101,6 +102,7 @@ public class Mapa {
 	}
 	
 	
+
 	/* El método devolverCaminoExceptuando (String ciudad1, String ciudad2,
 	ListaGenerica<String> ciudades): ListaGenerica<String> // Retorna la lista de ciudades que
 	forman un camino desde ciudad1 a ciudad2, sin pasar por las ciudades que están contenidas en la lista
@@ -154,6 +156,7 @@ public class Mapa {
 	}
 	
 	
+
 	/* El método caminoMasCorto(String ciudad1, String ciudad2): ListaGenerica<String> //
 	Retorna la lista de ciudades que forman el camino más corto para llegar de ciudad1 a ciudad2, si no
 	existe camino retorna la lista vacía. (Las rutas poseen la distancia). (Sin tener en cuenta el
@@ -205,8 +208,7 @@ public class Mapa {
 		if (vertice.dato().equals(ciudad2)) {
 
 			if (valorActual < valorMinimo) {
-				ListaGenerica<String> nuevo = camActual.clonar();
-				camMinimo = nuevo;
+				camMinimo = camActual.clonar();
 				valorMinimo = valorActual;
 				marca[i] = false;
 			}
@@ -247,6 +249,7 @@ public class Mapa {
 	}
 	
 	
+
 	/*El método caminoSinCargarCombustible(String ciudad1, String ciudad2, int tanqueAuto):
 	ListaGenerica<String> // Retorna la lista de ciudades que forman un camino para llegar de ciudad1
 	a ciudad2. El auto no debe quedarse sin combustible y no puede cargar. Si no existe camino retorna la
@@ -311,8 +314,6 @@ public class Mapa {
 						lista.agregarFinal(vertice.dato());
 						encontro = dfsSinCargarCombustible(j, mapa, lista, marca, ciudad2, tanque);
 					}
-					
-					
 				}
 			}
 			
@@ -324,7 +325,95 @@ public class Mapa {
 		}
 		return encontro;
 	}
+
+
+
+	/* El método caminoConMenorCargaDeCombustible (String ciudad1, String ciudad2, int
+	tanqueAuto): ListaGenerica<String> // Retorna la lista de ciudades que forman un camino para
+	llegar de ciudad1 a ciudad2 teniendo en cuenta que el auto debe cargar la menor cantidad de veces. El
+	auto no se debe quedar sin combustible en medio de una ruta, además puede completar su tanque al
+	llegar a cualquier ciudad. Si no existe camino retorna la lista vacía */
+
+	public ListaGenerica<String> caminoConMenorCargaDeCombustible (String ciudad1, String ciudad2, int tanqueAuto){
+		
+		ListaGenerica<String> camActual = new ListaEnlazadaGenerica<String>();
+		ListaGenerica<String> camMinimo = new ListaEnlazadaGenerica<String>();
+		
+		ListaGenerica<Vertice<String>> vertices = mapa.listaDeVertices();
+		int[] verticesCiudades = buscarCiudades(vertices, ciudad1, ciudad2);
+
+		if (verticesCiudades != null) {
+			boolean[] marca = new boolean[vertices.tamanio() + 1];
 			
+			dfsMenorCombustible(verticesCiudades[0], mapa, marca, camActual, camMinimo, 0, Integer.MAX_VALUE, tanqueAuto, tanqueAuto, ciudad2);
+		}
+		
+		return camMinimo;
+	}
+		
+	
+	private int dfsMenorCombustible (int i, Grafo<String> mapa, boolean[] marca, ListaGenerica<String> camActual, ListaGenerica<String> camMinimo, int valorActual, int valorMinimo, int capacidadTanque, int tanqueAct, String ciudad2) {
+		
+		marca[i] = true;
+		int minimo = valorMinimo;
+		ListaGenerica<Vertice<String>> vertices = mapa.listaDeVertices();
+		Vertice<String> vertice = vertices.elemento(i);
+		
+		System.out.println(vertice.dato() + " " + tanqueAct);
+		
+		if (vertice.dato().equals(ciudad2)) {
+			if (valorActual < valorMinimo) {
+				valorMinimo = valorActual;
+				camMinimo = camActual.clonar();
+				marca[i] = false;
+				System.out.println("Actualiza -> " + valorMinimo);
+
+			}
+			
+		} else {
+			
+			ListaGenerica<Arista<String>> adyacentes = mapa.listaDeAdyacentes(vertice);
+			
+			adyacentes.comenzar();
+			while (!adyacentes.fin()) {
+				
+				Arista<String> arista = adyacentes.proximo();
+				
+				if (tanqueAct - arista.peso() < 0) {
+					valorActual += 1;
+					tanqueAct = capacidadTanque;
+					System.out.println("Cargo el tanque en " + vertice.dato());
+				}
+					
+				if (tanqueAct - arista.peso() >= 0) {
+					tanqueAct = tanqueAct - arista.peso();
+					
+
+					camActual.agregarFinal(vertice.dato()); 
+					
+					Vertice<String> destino = arista.verticeDestino();
+					int j = destino.getPosicion();
+					
+					if (!marca[j]) {
+						System.out.println(vertice.dato() + "---" + arista.peso() + "--> " + destino.dato());
+						minimo = dfsMenorCombustible(j, mapa, marca, camActual, camMinimo, valorActual, valorMinimo, capacidadTanque, tanqueAct, ciudad2);
+					}
+					
+					if (minimo < valorMinimo)
+						valorMinimo = minimo;
+					
+					tanqueAct = tanqueAct + arista.peso();
+				
+					camActual.eliminarEn(camActual.tamanio());
+				}
+				
+			}
+			
+			marca[i] = false;
+		}
+		
+	return valorMinimo;
+	}
 }
 	
 	
