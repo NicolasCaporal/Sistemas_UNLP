@@ -231,7 +231,7 @@ public class Mapa {
 				
 				if (!marca[j])
 					minimoLocal = dfsMinimo(j, mapa, camActual, camMinimo, sumaActual, valorMinimo, marca, ciudad2);
-			
+				
 
 				if (minimoLocal < valorMinimo)
 					valorMinimo = minimoLocal;
@@ -240,10 +240,89 @@ public class Mapa {
 			
 				sumaActual = sumaActual - arista.peso();
 			}
-			
+			marca[i] = false;
 		}
 				
 		return valorMinimo;
+	}
+	
+	
+	/*El método caminoSinCargarCombustible(String ciudad1, String ciudad2, int tanqueAuto):
+	ListaGenerica<String> // Retorna la lista de ciudades que forman un camino para llegar de ciudad1
+	a ciudad2. El auto no debe quedarse sin combustible y no puede cargar. Si no existe camino retorna la
+	lista vacía. */
+	
+	public ListaGenerica<String> caminoSinCargarCombustible(String ciudad1, String ciudad2, int tanqueAuto){
+		ListaGenerica<String> lista = new ListaEnlazadaGenerica<String>();
+		
+		ListaGenerica<Vertice<String>> vertices = mapa.listaDeVertices();
+		int[] verticesCiudades = buscarCiudades(vertices, ciudad1, ciudad2);
+		
+		if (verticesCiudades != null) {
+			boolean[] marca = new boolean[vertices.tamanio() +1];
+			boolean encontro = false;
+			
+			encontro = dfsSinCargarCombustible(verticesCiudades[0], mapa, lista, marca, ciudad2, tanqueAuto);
+			
+			
+			if (encontro) {
+				System.out.println("Proceso existoso");
+			} else {
+				System.out.println("No se puede llegar desde " + ciudad1 + " hasta " +  ciudad2);
+			}
+			
+		} else {
+			System.out.println("Alguna de las dos ciudades no existia");
+		}
+	
+		return lista;	
+	}
+	
+
+	private boolean dfsSinCargarCombustible(int i, Grafo<String> mapa, ListaGenerica<String> lista, boolean[] marca, String ciudad2, int tanque) {
+		
+		boolean encontro = false;
+		marca[i] = true;
+		ListaGenerica<Vertice<String>> vertices = mapa.listaDeVertices();
+
+		Vertice<String> vertice = vertices.elemento(i);
+		
+		if (vertice.dato().equals(ciudad2)) {
+			encontro = true;
+			lista.agregarFinal(vertice.dato());
+
+			
+		} else {
+		
+			ListaGenerica<Arista<String>> adyacentes = mapa.listaDeAdyacentes(vertice);
+			adyacentes.comenzar();
+			int naftaPrevia = tanque;
+			
+			while ((!adyacentes.fin()) && (!encontro)){
+				Arista<String> arista = adyacentes.proximo();
+				
+				tanque = naftaPrevia - arista.peso();
+				
+				if (tanque >= 0) {
+					
+					Vertice<String> destino = arista.verticeDestino();
+					int j = destino.getPosicion();
+					if (!marca[j]) {
+						lista.agregarFinal(vertice.dato());
+						encontro = dfsSinCargarCombustible(j, mapa, lista, marca, ciudad2, tanque);
+					}
+					
+					
+				}
+			}
+			
+			if (!encontro) {
+				lista.eliminarEn(lista.tamanio());
+				marca[i] = false;
+			}
+
+		}
+		return encontro;
 	}
 			
 }
