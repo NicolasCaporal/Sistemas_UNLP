@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 # 20. Realice un script que simule el comportamiento de una estructura de PILA implemente
 # las siguientes funciones aplicables sobre una estructura global definida en el script:
 # push: Recibe un parámetro y lo agrega en la pila. | pop: Saca un elemento de la pila.
