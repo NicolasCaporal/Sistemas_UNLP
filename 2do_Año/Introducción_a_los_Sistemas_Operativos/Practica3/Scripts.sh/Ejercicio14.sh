@@ -37,10 +37,10 @@ then
 
         else
                 echo "ERROR: EL parámetro OPTION debe ser -a OR -b"
-                exit 1
+                exit 2
         fi
 
 else
         echo "ERROR: Directorio invalido"
-        exit 1
+        exit 3
 fi
