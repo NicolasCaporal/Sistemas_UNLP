@@ -16,3 +16,5 @@ for num in  ${arr[*]}; do
 done
 
 echo "Cantidad de numeros impares: $cantImp"
+
+exit 0
