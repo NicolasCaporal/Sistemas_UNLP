@@ -38,7 +38,7 @@ if [ $1 = "-b" ]; then
         if [ $2 -le ${#users[*]} ]; then
                 n=$(( $2 - 1 )); echo "users[$2]: ${users[$n]}"
         else
-                echo "ERROR: El arreglo es más petizo che..."  
+                echo "ERROR: El arreglo es más petiso che..."  
         fi
 
 elif [ $1 = "-l" ]; then
