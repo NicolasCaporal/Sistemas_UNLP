@@ -35,11 +35,11 @@
 
   
 
-- Organización de computadoras
+- [Organización de computadoras](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/1er_A%C3%B1o/OrganizacionDeComputadoras)
 
   
 
-- Matemática 1
+- [Matemática 1](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/1er_A%C3%B1o/Matematica1)
 
   
 
@@ -55,7 +55,7 @@
 
   
 
-- Matemática 2
+- [Matemática 2](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/1er_A%C3%B1o/Matematica2)
 
   
   
@@ -77,3 +77,26 @@
   
 
 - [Seminario de lenguajes](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/2do_A%C3%B1o/Seminario_de_Lenguajes) (Opción Python)
+
+
+##### Cuarto semestre:
+
+
+- [Diseño de Bases de Datos](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/2do_A%C3%B1o/Dise%C3%B1o_de_Bases_de_Datos)
+
+- [Ingeniería de Software 1](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/2do_A%C3%B1o/Ingenier%C3%ADa_de_Software_1)
+
+- [Orientación a Objetos 1](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/2do_A%C3%B1o/Orientaci%C3%B3n_a_Objetos_1)
+
+- [Introducción a los Sistemas Operativos](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/2do_A%C3%B1o/Introducci%C3%B3n_a_los_Sistemas_Operativos)
+
+- [Taller de lecto-comprensión y Traducción en Inglés]()
+
+### Tercer año
+
+##### Quinto semestre
+
+- Matemática 3
+- Ingeniería de Software 2
+- Conceptos y Paradigmas de Lenguajes de Programación
+- Orientación a Objetos 2
