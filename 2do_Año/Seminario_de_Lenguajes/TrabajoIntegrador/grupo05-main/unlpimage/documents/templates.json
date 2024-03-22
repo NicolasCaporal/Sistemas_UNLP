@@ -1,0 +1,98 @@
+[
+    {
+        "image": "Plantilla-bob-esponja.png",
+        "name": "Bob esponja fuerte",
+        "text_boxes": [
+            {
+                "top_left_x": 4,
+                "top_left_y": 4,
+                "bottom_right_x": 268,
+                "bottom_right_y": 160
+            },
+            {
+                "top_left_x": 4,
+                "top_left_y": 197,
+                "bottom_right_x": 268,
+                "bottom_right_y": 360
+            },
+            {
+                "top_left_x": 4,
+                "top_left_y": 388,
+                "bottom_right_x": 268,
+                "bottom_right_y": 544
+            }
+        ]
+    },
+    {
+        "image": "Plantilla-grita-internamente.jpg",
+        "name": "Grita internamente",
+        "text_boxes": [
+            {
+                "top_left_x": 3,
+                "top_left_y": 1,
+                "bottom_right_x": 572,
+                "bottom_right_y": 142
+            }
+        ]
+    },
+    {
+        "image": "Plantilla-homero.png",
+        "name": "Homero escondiéndose",
+        "text_boxes": [
+            {
+                "top_left_x": 8,
+                "top_left_y": 1,
+                "bottom_right_x": 353,
+                "bottom_right_y": 70
+            },
+            {
+                "top_left_x": 370,
+                "top_left_y": 1,
+                "bottom_right_x": 692,
+                "bottom_right_y": 70
+            }
+        ]
+    },
+    {
+        "image": "Plantilla-joe-friends.png",
+        "name": "Joe sorprendido",
+        "text_boxes": [
+            {
+                "top_left_x": 5,
+                "top_left_y": 0,
+                "bottom_right_x": 270,
+                "bottom_right_y": 250
+            },
+            {
+                "top_left_x": 5,
+                "top_left_y": 295,
+                "bottom_right_x": 270,
+                "bottom_right_y": 530
+            }
+        ]
+    },
+    {
+        "image": "Plantilla-winie-pooh.png",
+        "name": "Winie pooh caballero",
+        "text_boxes": [
+            {
+                "top_left_x": 246,
+                "top_left_y": 10,
+                "bottom_right_x": 523,
+                "bottom_right_y": 170
+            },
+            {
+                "top_left_x": 250,
+                "top_left_y": 203,
+                "bottom_right_x": 522,
+                "bottom_right_y": 350
+            },
+            {
+                "top_left_x": 243,
+                "top_left_y": 391,
+                "bottom_right_x": 523,
+                "bottom_right_y": 545
+            }
+        ]
+    }
+]

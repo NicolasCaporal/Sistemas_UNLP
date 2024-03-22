@@ -1,0 +1,7 @@
+nltk == 3.8.1
+matplotlib == 3.7.1
+pandas == 2.0.1
+Pillow == 9.5.0
+PySimpleGUI == 4.60.4
+streamlit == 1.22.0
+wordcloud == 1.9.2

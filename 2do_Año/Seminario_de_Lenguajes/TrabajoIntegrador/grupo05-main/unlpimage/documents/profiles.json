@@ -1,0 +1,39 @@
+{
+    "profiles": [
+        {
+            "nick": "esteban",
+            "name": "Esteban",
+            "age": 19,
+            "gender": "Masculino",
+            "image_path": "unlpimage/images/profileimages/Hombre-negro.png"
+        },
+        {
+            "nick": "tucci",
+            "name": "Juan",
+            "age": 19,
+            "gender": "Femenino",
+            "image_path": "unlpimage/images/profileimages/Hombre-rubio.png"
+        },
+        {
+            "nick": "nico",
+            "name": "Nico",
+            "age": 19,
+            "gender": "Femenino",
+            "image_path": "unlpimage/images/profileimages/Hombre-marron.png"
+        },
+        {
+            "nick": "bauti",
+            "name": "Bauti",
+            "age": 19,
+            "gender": "No Binario",
+            "image_path": "unlpimage/images/collages/ejemplo.jpg"
+        },
+        {
+            "nick": "messi",
+            "name": "Lionel",
+            "age": 35,
+            "gender": "Masculino",
+            "image_path": "unlpimage/images/profileimages/messi.png"
+        }
+    ]
+}
