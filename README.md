@@ -90,7 +90,7 @@
 
 - [Introducción a los Sistemas Operativos](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/2do_A%C3%B1o/Introducci%C3%B3n_a_los_Sistemas_Operativos)
 
-- [Taller de lecto-comprensión y Traducción en Inglés]()
+- Taller de lecto-comprensión y Traducción en Inglés
 
 ### Tercer año
 
