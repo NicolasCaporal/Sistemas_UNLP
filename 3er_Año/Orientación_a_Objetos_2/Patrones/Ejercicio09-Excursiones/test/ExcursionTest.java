@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 
-// Normalmente los enunciados piden implementar todos los test que creas necesarios, pero en este caso pedía solo uno muy especifico :)
+// Normalmente los enunciados piden implementar todos los test que creas necesarios,
+// pero en este caso pedía solo uno muy especifico, por mi joya menos laburo ¯\_(ツ)_/¯
 
 // Escriba un test para inscribir a un usuario en la excursión “Dos días en kayak bajando el Paraná”, con cupo mínimo de
 // 1 persona y cupo máximo 2, con dos personas ya inscriptas. Implemente todos los mensajes que considere necesarios.
