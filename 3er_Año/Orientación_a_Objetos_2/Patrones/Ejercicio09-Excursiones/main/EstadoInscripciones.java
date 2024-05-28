@@ -3,12 +3,10 @@ package ar.edu.info.unlp.ejercicio09;
 public abstract class EstadoInscripciones {
     protected Excursion excursion;
 
-    public EstadoInscripciones(Excursion excursion){
-        this.excursion = excursion;
-    }
+    public EstadoInscripciones(){ }
 
-    public abstract void inscribir(Usuario usuario);
+    public abstract void inscribir(Excursion excursion, Usuario usuario);
 
-    public abstract String obtenerInformacion();
+    public abstract String obtenerInformacion(Excursion excursion);
 
 }

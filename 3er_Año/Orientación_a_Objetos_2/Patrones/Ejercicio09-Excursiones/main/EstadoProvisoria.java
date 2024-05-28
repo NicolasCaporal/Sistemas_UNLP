@@ -2,19 +2,19 @@ package ar.edu.info.unlp.ejercicio09;
 
 public class EstadoProvisoria extends EstadoInscripciones{
 
-    public EstadoProvisoria(Excursion excursion){
-        super(excursion);
+    public EstadoProvisoria(){
+        super();
     }
 
-    public void inscribir(Usuario usuario){
-        this.excursion.nuevaInscripcion(usuario);
-        if (this.excursion.usuariosFaltantesMinimo() == 0) {
-            this.excursion.setEstado(new EstadoDefinitiva(excursion));
+    public void inscribir(Excursion excursion, Usuario usuario){
+        excursion.nuevaInscripcion(usuario);
+        if (excursion.usuariosFaltantesMinimo() == 0) {
+            excursion.setEstado(new EstadoDefinitiva());
         }
     }
 
-    public String obtenerInformacion(){
-        return "Cantidad de usuarios faltantes para alcanzar minimo: " + this.excursion.usuariosFaltantesMinimo();
+    public String obtenerInformacion(Excursion excursion){
+        return "Cantidad de usuarios faltantes para alcanzar minimo: " + excursion.usuariosFaltantesMinimo();
     }
 
 }

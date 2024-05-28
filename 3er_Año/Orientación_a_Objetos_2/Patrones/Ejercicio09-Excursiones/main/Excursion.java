@@ -25,13 +25,13 @@ public class Excursion {
         this.costo = costo;
         this.cupoMinimo = cupoMinimo;
         this.cupoMaximo = cupoMaximo;
-        this.estado = new EstadoProvisoria(this);
+        this.estado = new EstadoProvisoria();
         this.inscriptos = new ArrayList<Usuario>();
         this.enEspera = new ArrayList<Usuario>();
     }
 
     public void inscribir(Usuario usuario){
-        this.estado.inscribir(usuario);
+        this.estado.inscribir(this, usuario);
     }
 
     public String obtenerInformacion(){
@@ -40,38 +40,38 @@ public class Excursion {
                 "Fecha Inicio:" + this.fechaInicio + "\n" +
                 "Fecha Fin: " + this.fechaFin + "\n" +
                 "Punto de encuentro: " + this.puntoEncuentro + "\n" +
-                this.estado.obtenerInformacion();
+                this.estado.obtenerInformacion(this);
     }
 
-    public void nuevaInscripcion(Usuario usuario){
+    protected void nuevaInscripcion(Usuario usuario){
         this.inscriptos.add(usuario);
     }
 
-    public void nuevaInscripcionEspera(Usuario usuario){
+    protected void nuevaInscripcionEspera(Usuario usuario){
         this.enEspera.add(usuario);
     }
 
-    public int cantInscriptos(){
+    protected int cantInscriptos(){
         return this.inscriptos.size();
     }
 
-    public int cantEnEspera(){
+    protected int cantEnEspera(){
         return this.enEspera.size();
     }
 
-    public void setEstado(EstadoInscripciones nuevoEstado){
+    protected void setEstado(EstadoInscripciones nuevoEstado){
         this.estado = nuevoEstado;
     }
 
-    public int usuariosFaltantesMinimo(){
+    protected int usuariosFaltantesMinimo(){
         return this.cupoMinimo - this.cantInscriptos();
     }
 
-    public int usuariosFaltantesMaximo(){
+    protected int usuariosFaltantesMaximo(){
         return this.cupoMaximo - this.cantInscriptos();
     }
 
-    public String listaEmailsInscriptos(){
+    protected String listaEmailsInscriptos(){
         StringBuilder listaEmails = new StringBuilder();
         this.inscriptos.stream()
                 .forEach(usuario -> listaEmails.append(usuario.getEmail()).append("\n"));

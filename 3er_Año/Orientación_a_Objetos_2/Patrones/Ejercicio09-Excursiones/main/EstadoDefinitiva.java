@@ -2,20 +2,20 @@ package ar.edu.info.unlp.ejercicio09;
 
 public class EstadoDefinitiva extends EstadoInscripciones{
 
-    public EstadoDefinitiva(Excursion excursion){
-        super(excursion);
+    public EstadoDefinitiva(){
+        super();
     }
 
-    public void inscribir(Usuario usuario){
-        this.excursion.nuevaInscripcion(usuario);
-        if (this.excursion.usuariosFaltantesMaximo() == 0) {
-            this.excursion.setEstado(new EstadoCompleta(excursion));
+    public void inscribir(Excursion excursion, Usuario usuario){
+        excursion.nuevaInscripcion(usuario);
+        if (excursion.usuariosFaltantesMaximo() == 0) {
+            excursion.setEstado(new EstadoCompleta());
         }
     }
 
-    public String obtenerInformacion(){
-        return "Cantidad de usuarios faltantes completar cupo: " + this.excursion.usuariosFaltantesMaximo() + "\n" +
-                "Email de los usuarios inscriptos: " + this.excursion.listaEmailsInscriptos();
+    public String obtenerInformacion(Excursion excursion){
+        return "Cantidad de usuarios faltantes completar cupo: " + excursion.usuariosFaltantesMaximo() + "\n" +
+                "Email de los usuarios inscriptos: " + excursion.listaEmailsInscriptos();
     }
 
 }
