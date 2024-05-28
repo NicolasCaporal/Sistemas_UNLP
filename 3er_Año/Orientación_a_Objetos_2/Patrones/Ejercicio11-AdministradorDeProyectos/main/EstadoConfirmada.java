@@ -1,18 +1,18 @@
 package ar.edu.info.unlp.ejercicio11;
 
 public class EstadoConfirmada extends EstadoAprobacion {
-    public EstadoConfirmada(Proyecto proyecto) {
-        super(proyecto);
+    public EstadoConfirmada() {
+        super();
     }
 
     @Override
-    public void aprobarEtapa() {
-        throw new RuntimeException("CONFIRMADA: El Proyecto ya está confirmado");
+    public void aprobarEtapa(Proyecto proyecto) {
+        // No produce efecto alguno en el proyecto
     }
 
     @Override
-    public boolean setMargenDeGanancia(double margen) {
-        throw new RuntimeException("CONFIRMADA: El Proyecto ya está confirmado, no podés modificar el margen de ganancia");
+    public boolean setMargenDeGanancia(Proyecto proyecto, double margen) {
+        return false; // No produce efecto alguno en el proyecto
     }
 
 }

@@ -22,50 +22,48 @@ public class Proyecto {
 		this.cantIntegrantes = cantIntegrantes;
 		this.montoDiario = montoDiario;
 		this.margenGanancia = 7; // En %
-		this.estado = new EstadoEnConstruccion(this);
+		this.estado = new EstadoEnConstruccion();
 	}
 
 	public void aprobarEtapa() {
-		this.estado.aprobarEtapa();
+		this.estado.aprobarEtapa(this);
 	}
 
 	private int cantDias(){
 		return (int) ChronoUnit.DAYS.between(this.fechaInicio, this.fechaFin);
 	}
-
 	public double costoDelProyecto() {
 		return this.cantIntegrantes * this.cantDias() * this.montoDiario;
 	}
-
 	public double precioDelProyecto() {
 		return this.costoDelProyecto() * (1 + this.margenGanancia / 100);
 	}
 
 	public boolean cambiarMargenDeGanancia(double margen) {
-		return this.estado.setMargenDeGanancia(margen);
-	}
-
-	public void setMargenDeGanancia(double margen) {
-		this.margenGanancia = margen;
-	}
-
-	public double getMargenDeGanancia(){
-		return this.margenGanancia;
+		return this.estado.setMargenDeGanancia(this, margen);
 	}
 
 	public void cancelarProyecto() {
-		this.estado.cancelarProyecto();
+		this.estado.cancelarProyecto(this);
 	}
-	
-	public void setEstado(EstadoAprobacion estado) {
+
+	protected void setMargenDeGanancia(double margen) {
+		this.margenGanancia = margen;
+	}
+
+	protected double getMargenDeGanancia(){
+		return this.margenGanancia;
+	}
+
+	protected void setEstado(EstadoAprobacion estado) {
 		this.estado = estado;
 	}
 
-	public EstadoAprobacion getEstado(){
+	protected EstadoAprobacion getEstado(){
 		return this.estado;
 	}
 
-	public void setObjetivo(String objetivo){
+	protected void setObjetivo(String objetivo){
 		this.objetivo = objetivo;
 	}
 

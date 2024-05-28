@@ -1,20 +1,20 @@
 package ar.edu.info.unlp.ejercicio11;
 
 public class EstadoEnEvaluacion extends EstadoAprobacion {
-    public EstadoEnEvaluacion(Proyecto proyecto) {
-        super(proyecto);
+    public EstadoEnEvaluacion() {
+        super();
     }
 
     @Override
-    public void aprobarEtapa() {
-        this.proyecto.setEstado(new EstadoConfirmada(this.proyecto));
+    public void aprobarEtapa(Proyecto proyecto) {
+        proyecto.setEstado(new EstadoConfirmada());
     }
 
     @Override
-    public boolean setMargenDeGanancia(double margen) {
+    public boolean setMargenDeGanancia(Proyecto proyecto, double margen) {
         boolean cambio = false;
         if (margen >= 11 && margen <= 15) {
-            this.proyecto.setMargenDeGanancia(margen);
+            proyecto.setMargenDeGanancia(margen);
             cambio = true;
         }
         return cambio;

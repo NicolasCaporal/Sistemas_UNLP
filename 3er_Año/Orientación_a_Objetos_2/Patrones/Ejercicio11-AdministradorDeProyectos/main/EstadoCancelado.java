@@ -1,23 +1,23 @@
 package ar.edu.info.unlp.ejercicio11;
 
 public class EstadoCancelado extends EstadoAprobacion {
-    public EstadoCancelado(Proyecto proyecto) {
-        super(proyecto);
+    public EstadoCancelado() {
+        super();
     }
 
     @Override
-    public void aprobarEtapa() {
-        throw new RuntimeException("CANCELADO: El Proyecto fue cancelado");
+    public void aprobarEtapa(Proyecto proyecto) {
+        // No produce efecto alguno en el proyecto
     }
 
     @Override
-    public boolean setMargenDeGanancia(double margen) {
-        throw new RuntimeException("CANCELADO: El Proyecto fue cancelado");
+    public boolean setMargenDeGanancia(Proyecto proyecto, double margen) {
+        return false; // No produce efecto alguno en el proyecto
     }
 
     @Override
-    public void cancelarProyecto(){
-        throw new RuntimeException("CANCELADO: El Proyecto fue cancelado");
+    public void cancelarProyecto(Proyecto proyecto){
+        // No produce efecto alguno en el proyecto
     }
 
 }

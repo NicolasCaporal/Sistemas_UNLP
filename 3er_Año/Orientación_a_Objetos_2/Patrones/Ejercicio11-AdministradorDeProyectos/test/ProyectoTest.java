@@ -21,6 +21,7 @@ public class ProyectoTest {
 	LocalDate fechaInicio;
 	LocalDate fechaFin;
 	Proyecto proyecto;
+	Proyecto proyectoCosto0;
 
 
 	@BeforeEach
@@ -36,9 +37,6 @@ public class ProyectoTest {
     public void testAprobarEtapa() {
         this.proyecto.aprobarEtapa();
 		assertTrue(proyecto.getEstado() instanceof EstadoConfirmada);
-
-		RuntimeException exception = assertThrows(RuntimeException.class, proyecto::aprobarEtapa);
-		assertEquals("CONFIRMADA: El Proyecto ya está confirmado", exception.getMessage());
 	}
 
 
@@ -67,8 +65,5 @@ public class ProyectoTest {
 		proyecto.cancelarProyecto();
 		assertTrue(proyecto.getEstado() instanceof EstadoCancelado);
 		assertEquals("Salir con amigos (Cancelado)", proyecto.getObjetivo());
-
-		RuntimeException exception = assertThrows(RuntimeException.class, proyecto::cancelarProyecto);
-		assertEquals("CANCELADO: El Proyecto fue cancelado", exception.getMessage());
 	}
 }

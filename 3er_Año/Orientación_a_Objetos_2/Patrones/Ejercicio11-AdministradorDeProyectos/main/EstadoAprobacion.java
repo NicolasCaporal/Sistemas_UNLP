@@ -1,18 +1,15 @@
 package ar.edu.info.unlp.ejercicio11;
 
 public abstract class EstadoAprobacion {
-    protected Proyecto proyecto;
 
-    public EstadoAprobacion(Proyecto proyecto){
-        this.proyecto = proyecto;
-    }
+    public EstadoAprobacion(){  }
 
-    public abstract void aprobarEtapa();
+    public abstract void aprobarEtapa(Proyecto proyecto);
 
-    public abstract boolean setMargenDeGanancia(double margen);
+    public abstract boolean setMargenDeGanancia(Proyecto proyecto, double margen);
 
-    public void cancelarProyecto(){
-        this.proyecto.setObjetivo(this.proyecto.getObjetivo() + " (Cancelado)");
-        this.proyecto.setEstado(new EstadoCancelado(proyecto));
+    public void cancelarProyecto(Proyecto proyecto){
+        proyecto.setObjetivo(proyecto.getObjetivo() + " (Cancelado)");
+        proyecto.setEstado(new EstadoCancelado());
     }
 }
