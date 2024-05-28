@@ -3,19 +3,16 @@ package ar.edu.info.unlp.ejercicio08;
 import java.time.Duration;
 
 public abstract class State {
-    protected ToDoItem task; //Context
 
-    public State(ToDoItem task){
-        this.task = task;
-    }
+    public State(){ }
 
-    public abstract void start();
+    public abstract void start(ToDoItem task);
 
-    public abstract void togglePause();
+    public abstract void togglePause(ToDoItem task);
 
-    public abstract void finish();
+    public abstract void finish(ToDoItem task);
 
-    public abstract Duration workedTime();
+    public abstract Duration workedTime(ToDoItem task);
 
-    public abstract void addComment(String comment);
+    public abstract void addComment(ToDoItem task, String comment);
 }

@@ -5,33 +5,33 @@ import java.time.LocalDateTime;
 
 public class inProgressState extends State {
 
-    public inProgressState(ToDoItem task){
-        super(task);
+    public inProgressState(){
+        super();
     }
 
     @Override
-    public void start() {
+    public void start(ToDoItem task) {
         // No hace nada
     }
 
     @Override
-    public void togglePause() {
-        this.task.setState(new PausedState(task));
+    public void togglePause(ToDoItem task) {
+        task.setState(new PausedState());
     }
 
     @Override
-    public void finish() {
-        this.task.setEnd(LocalDateTime.now());
-        this.task.setState(new FinishedState(task));
+    public void finish(ToDoItem task) {
+        task.setEnd(LocalDateTime.now());
+        task.setState(new FinishedState());
     }
 
     @Override
-    public Duration workedTime() {
+    public Duration workedTime(ToDoItem task) {
         return Duration.between(task.getStart(), LocalDateTime.now());
     }
 
     @Override
-    public void addComment(String comment) {
+    public void addComment(ToDoItem task, String comment) {
         task.getComments().add(comment);
     }
 }

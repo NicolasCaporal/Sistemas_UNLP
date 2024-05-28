@@ -17,12 +17,8 @@ public class ToDoItem {
 	 */
 	public ToDoItem(String name){
 		this.name = name;
-		this.state = new PendingState(this);
+		this.state = new PendingState();
 		this.comments = new ArrayList<String>();
-		// Esto rompe el encapsulamiento, pero el libro de Gamma dice que el Contexto puede pasarse a si mismo
-		// como parámetro para que el objeto Estado pueda acceder al Contexto si fuera necesario.
-		// La justificación es que tiene sentido que, en el patrón State, las clases estén fuertemente acopladas y conozcan
-		// el funcionamiento interno de las otras clases.
 	}
 
 
@@ -31,7 +27,7 @@ public class ToDoItem {
 	 * pending. Si se encuentra en otro estado, no hace nada.
 	 */
 	public void start(){
-		this.state.start();
+		this.state.start(this);
 	}
 
 
@@ -41,7 +37,7 @@ public class ToDoItem {
 	 * informando la causa específica del mismo.
 	 */
 	public void togglePause(){
-		this.state.togglePause();
+		this.state.togglePause(this);
 	}
 
 
@@ -50,7 +46,7 @@ public class ToDoItem {
 	 * in-progress o paused. Si se encuentra en otro estado, no hace nada.
 	 */
 	public void finish(){
-		this.state.finish();
+		this.state.finish(this);
 	}
 
 
@@ -61,7 +57,7 @@ public class ToDoItem {
 	 * genera un error informando la causa específica del mismo.
 	 */
 	public Duration workedTime(){
-        return this.state.workedTime();
+        return this.state.workedTime(this);
     }
 
 
@@ -70,7 +66,7 @@ public class ToDoItem {
 	 * contrario no hace nada."
 	 */
 	public void addComment(String comment){
-		this.state.addComment(comment);
+		this.state.addComment(this, comment);
 	}
 
 
@@ -78,39 +74,37 @@ public class ToDoItem {
 		return this.comments;
 	}
 
+	public String getName(){
+		return this.name;
+	}
 
-	public void setStart(LocalDateTime time){
+	protected void setStart(LocalDateTime time){
 		this.timeStart = time;
 	}
 
 
-	public LocalDateTime getStart(){
+	protected LocalDateTime getStart(){
 		return this.timeStart;
 	}
 
 
-	public void setEnd(LocalDateTime time){
+	protected void setEnd(LocalDateTime time){
 		this.timeEnd = time;
 	}
 
 
-	public LocalDateTime getEnd(){
+	protected LocalDateTime getEnd(){
 		return this.timeEnd;
 	}
 
 
-	public State getState(){
+	protected State getState(){
 		return this.state;
 	}
 
 
-	public void setState(State state){
+	protected void setState(State state){
 		this.state = state;
-	}
-
-
-	public String getName(){
-		return this.name;
 	}
 
 }
