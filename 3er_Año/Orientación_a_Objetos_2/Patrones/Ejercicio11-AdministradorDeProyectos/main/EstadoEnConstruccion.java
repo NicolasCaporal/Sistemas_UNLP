@@ -17,7 +17,7 @@ public class EstadoEnConstruccion extends EstadoAprobacion {
     @Override
     public boolean setMargenDeGanancia(double margen) {
         boolean cambio = false;
-        if (this.proyecto.getMargenDeGanancia() >= 8 && this.proyecto.getMargenDeGanancia() <= 10) {
+        if (margen >= 8 && margen <= 10) {
             this.proyecto.setMargenDeGanancia(margen);
             cambio = true;
         }

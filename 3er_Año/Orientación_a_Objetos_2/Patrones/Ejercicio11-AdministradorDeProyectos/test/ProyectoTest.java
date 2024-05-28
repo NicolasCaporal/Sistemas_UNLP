@@ -56,7 +56,9 @@ public class ProyectoTest {
 
 	@Test
 	public void setMargenDeGanancia(){
-		assertFalse(proyecto.setMargenDeGanancia(10));
+		assertFalse(proyecto.cambiarMargenDeGanancia(10));
+		assertTrue(proyecto.cambiarMargenDeGanancia(11));
+		assertEquals(11, proyecto.getMargenDeGanancia());
 	}
 
 

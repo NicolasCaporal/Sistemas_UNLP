@@ -32,22 +32,31 @@ public class Proyecto {
 	private int cantDias(){
 		return (int) ChronoUnit.DAYS.between(this.fechaInicio, this.fechaFin);
 	}
+
 	public double costoDelProyecto() {
 		return this.cantIntegrantes * this.cantDias() * this.montoDiario;
 	}
+
 	public double precioDelProyecto() {
 		return this.costoDelProyecto() * (1 + this.margenGanancia / 100);
 	}
-	public boolean setMargenDeGanancia(double margen) {
+
+	public boolean cambiarMargenDeGanancia(double margen) {
 		return this.estado.setMargenDeGanancia(margen);
+	}
+
+	public void setMargenDeGanancia(double margen) {
+		this.margenGanancia = margen;
 	}
 
 	public double getMargenDeGanancia(){
 		return this.margenGanancia;
 	}
+
 	public void cancelarProyecto() {
 		this.estado.cancelarProyecto();
 	}
+	
 	public void setEstado(EstadoAprobacion estado) {
 		this.estado = estado;
 	}
