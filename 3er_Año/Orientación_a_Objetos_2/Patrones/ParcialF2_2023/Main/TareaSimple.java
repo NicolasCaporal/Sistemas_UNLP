@@ -17,7 +17,9 @@ public class TareaSimple{
         this.state.iniciar();
     }
 
-    public abstract void completar();
+    public void completar(){
+        this.state.completar();
+    }
 
     public double getDuracion(){
         return this.duracionEstimada;
