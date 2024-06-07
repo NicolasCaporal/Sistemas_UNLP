@@ -1,7 +1,7 @@
 public class EstadoCompletada{
    
     public EstadoCompletada(TareaSimple tarea){
-        this.tarea.setFin(System.out.currentTimeMillis());
+        tarea.setFin(System.out.currentTimeMillis());
     }
 
     @Override

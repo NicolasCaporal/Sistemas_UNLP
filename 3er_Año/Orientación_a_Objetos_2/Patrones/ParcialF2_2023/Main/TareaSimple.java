@@ -18,7 +18,7 @@ public class TareaSimple{
     }
 
     public void completar(){
-        this.state.completar();
+        this.state.iniciar();
     }
 
     public double getDuracion(){
