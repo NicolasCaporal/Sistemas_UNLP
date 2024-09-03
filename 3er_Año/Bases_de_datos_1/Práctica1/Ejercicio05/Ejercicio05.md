@@ -37,7 +37,7 @@ responda si las siguientes afirmaciones son V o F:
 
 **B.** Verdadero: *"Un curso de un semestre tiene info"*
 
-**C.** Falso: *También se debería incluir el cuil como parte de la clave, para poder identificar correctamenta cada caso individual y que la clave cumpla su función*
+**C.** Falso: *Debería ser el idic, ya que un curso lo dicta un y solo un profesor. Con el idic ya se puede identificar todo, por tanto debería ser la clave.*
 
 **D.** Verdadero???: *"Es una opción válida lo que plantea el enunciado, creo ni ideaa"*
 
