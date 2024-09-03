@@ -1,12 +1,19 @@
 ## 5) Verdadero/Falso en Transformación del modelo de E/R al modelo Relacional. Cursos
 
 semestre (**#semestre**, nro, año)
+
 curso (**codigo**, nombre, reseña)
+
 profesor (**cuil**, nyap, fecha_nac, fecha_ingreso)
+
 infocurso (**idic**, fecha_comienzo, aula, día_semana, hora)
+
 brinda (#**semestre**, **codigo**)
+
 tiene (**#semestre**, **codigo**, **idic**)
+
 dicta (idic, **cuil**)
+
 
 Dada la transformación 1 a 1 del modelo de entidades y relaciones al modelo relacional,
 responda si las siguientes afirmaciones son V o F: 
