@@ -14,6 +14,7 @@ tiene (**#semestre**, **codigo**, **idic**)
 
 dicta (idic, **cuil**)
 
+---
 
 Dada la transformación 1 a 1 del modelo de entidades y relaciones al modelo relacional,
 responda si las siguientes afirmaciones son V o F: 
