@@ -33,7 +33,8 @@ Hay que aplicar el refactoring Rename Parameter:
 * f2 -> fechaHasta
 
 
-### PREGUNTAR POR EL PROTECTED ?
+###### Aclaraciones:
+* Sin conocer el contexto o dominio del programa, no se puede afirmar ni negar que la visibilidad de un método (public, private o protected) sea o no sea un bad smell
 
 ---
 
@@ -81,32 +82,31 @@ private double calcularEdadTotal(List<Empleado> personal){
     int totalEdades = 0;
     for (Empleado empleado : personal) {
         totalEdades = totalEdades + empleado.getEdad();
-        totalSalarios = totalSalarios + empleado.getSalario();
     }
     return totalEdades;
+}
+
+private double calcularTotalSalario(List<Empleado> personal){
+    double totalSalarios = 0;
+    for (Empleado empleado : personal) {
+        totalSalarios = totalSalarios + empleado.getSalario();
+    }
+    return totalSalarios;
 }
 
 private double calcularPromedioEdad(List<Empleado> personal){
     return this.calcularEdadTotal() / personal.size();
 }
 
-public void imprimirValores() {
-    double totalSalarios = 0;
-    
+public void imprimirValores() {    
     String message = String.format("El promedio de las edades es %s y el
-    total de salarios es %s", this.calcularPromedioEdad(), totalSalarios);
+    total de salarios es %s", this.calcularPromedioEdad(), this.calcularTotalSalario);
     System.out.println(message);
 }
 ```
 
----
-# EL 1.3 INCOMPLETO
-### Preguntar
-Hay que aplicar el refactoring Rename Parameter:
-* Era al pedo la variable promedio edades... Yo con el extract method me la llevé, está bien eso? o faltaría un paso más?
-* qué onda la división por 0? Habría que chequear eso... ¿Tiene un nombre ese bad smell? ¿es importante saberse los nombres?
-* ¿Que pasa con la variable al re pedo que es totalSalarios? Se inicializa en 0 y se imprime así :(
-* al pedo la variable de message, ponelo directo en el print loquito ¿bad smell? sería Temporary Field? también sería temporaly field en las inicializaciones en 0?
-* Es un bad smell no haberlo hecho con Streams al calculo del for? es algo que tendría que marcar o no pasa nada?
+###### Aclaraciones:
+* El uso del for no es necesariamente un bad smell, en este caso es correcto. Puede estar mal si, por ejemplo, pára saber el tamaño de una lista se usa un for y un contador, en vez de usar lista.size();
+* El programa tiene un error: no chequea una posible división por 0 al calcular el promedio con personal.size(). **Es muy importante no corregir ese error de lógica**, si lo arreglamos, estamos cambiando el comportamiento del programa, por tanto ya no cuenta como refactoring.
 
 ---
