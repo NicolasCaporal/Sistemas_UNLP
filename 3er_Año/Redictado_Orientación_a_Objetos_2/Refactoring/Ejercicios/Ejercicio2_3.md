@@ -100,7 +100,7 @@ public List<Post> ultimosPosts(Usuario user, int cantidad) {
 }
 ```
 
-#### Mal olor: Reinventar la rueda
+#### Mal olor: Reinvent the wheel
 #### Refactoring: Substitute Algorithm
 // Este paso lo hizo chatGPT, yo no tenía ganas de pensar en Streams, pero confiemos (?
 ```java
