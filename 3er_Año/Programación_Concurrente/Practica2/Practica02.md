@@ -334,15 +334,81 @@ Process Persona [id: 1 .. N-1]{
 
 #### b)
 ```go
-Cola C;
+colaLlegada c;
+sem espera[P] = ([P] 0);
 sem mutex = 1;
-sem impresora = 1;
+bool libre = true;
 
-Process Persona [id: 1 .. N-1]{
-    P(cola);
-    cola.agregar(id);
-    P(impresora);
+Process persona [i: 0 .. P-1]{
+
+    int aux;
+    P(mutex);
+    if (libre){
+        libre = false;
+        V(mutex);
+    } else {
+        c.push(i);
+        V(mutex);
+        P(espera[i]);
+    }
+
     Imprimir(documento);
-    V(impresora);
+    P(mutex);
+
+    if (c.isEmpty()){
+        libre = true;
+    } else {
+        aux = c.pop();
+        V(espera[aux]);
+    }
+    V(mutex);
+}
+```
+
+#### c)
+```go
+int actual = 0;
+sem espera[P] = ([P] 0);
+
+Process persona [id: 0 .. P-1]{
+    if (actuak != id){ 
+        P(espera[id]);
+    }
+    Imprimir(documento);
+    actual++;
+    V(espera[actual]);
+}
+```
+
+#### d)
+Modifique la solución de (b) para el caso en que además hay un proceso Coordinador que le indica a cada persona que es su turno de usar la impresora.
+#### b)
+```go
+sem espera[P] = ([P] 0);
+sem mutex = 1;
+sem listo = 0;
+sem llena = 0;
+colaLlegada c;
+
+Process persona [i: 0 .. P-1]{
+    P(mutex);
+    c.push(i);
+    V(mutex);
+    V(llena);
+    P(espera[i]);
+    Imprimir(documento);
+    V(listo);
+}
+
+Process coordinador{
+    int aux;
+    for i = 0 .. P-1 {
+        P(llena);
+        P(mutex);
+        aux = c.pop();
+        V(mutex);
+        V(espera[aux]);
+        P(listo);
+    }
 }
 ```
