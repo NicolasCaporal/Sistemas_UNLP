@@ -348,7 +348,7 @@ process administrativo[id: 1 .. N]{
 }
 
 process director[1]{
-        while (true){
+    while (true){
         int tiempoDeTrabajo = randomTime();
         trabajar(tiempoDeTrabajo);
         Documento documento = new Documento(data);

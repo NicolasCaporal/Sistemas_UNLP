@@ -201,7 +201,7 @@ Monitor accesoVoto [1]{
             libre = false;
         } else {
             cantEsperando++;
-            fila.insertar(id, edad, embarazada);
+            fila.insertar(id, edad, embarazada); //Inserta según prioridad
             wait(Espera[id]);
         }
     }
