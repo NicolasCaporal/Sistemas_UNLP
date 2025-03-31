@@ -58,6 +58,7 @@
 - [Matemática 2](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/1er_A%C3%B1o/Matematica2)
 
   
+
   
 
 ### Segundo año:
@@ -96,7 +97,41 @@
 
 ##### Quinto semestre
 
-- Matemática 3
-- Ingeniería de Software 2
-- Conceptos y Paradigmas de Lenguajes de Programación
-- Orientación a Objetos 2
+- [Matemática 3](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/3er_A%C3%B1o/Matematica3)
+- [Ingeniería de Software 2](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/3er_A%C3%B1o/Ingenier%C3%ADa_de_Software_2)
+- [Conceptos y Paradigmas de Lenguajes de Programación](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/3er_A%C3%B1o/Conceptos_y_Paradigmas_de_Lenguajes_de_Programaci%C3%B3n)
+- [Orientación a Objetos 2](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/3er_A%C3%B1o/Orientaci%C3%B3n_a_Objetos_2)
+
+##### Sexto semestre
+
+- Redes y Comunicaciones
+- [Programación Concurrente](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/3er_A%C3%B1o/Programaci%C3%B3n_Concurrente)
+- Proyecto de Software
+- Bases de Datos 1
+
+### Cuarto año
+
+##### Séptimo semestre
+
+- Fundamentos de la Teoría de la Computación
+- Sistemas Operativos
+- Bases de Datos 2
+- [Ingeniería de Software 3](https://github.com/NicolasCaporal/Sistemas_UNLP/tree/main/4to_A%C3%B1o/Ingenier%C3%ADa_de_Software_3/Pr%C3%A1ctica)
+
+##### Octavo semestre
+
+- Sistemas y Organizaciones
+- Matemática 4
+- Desarrollo de Software en Sistemas Distribuidos
+- Optativa 1 LS (*)
+
+### Quinto año
+
+##### Noveno semestre
+
+- Aspectos Sociales y Profesionales de Informática
+- Aspectos Éticos, Sociales y Profesionales Avanzados de Informática
+- Optativa 2 LS (*)
+
+- **Tesina de Licenciatura en Sistemas**
+
