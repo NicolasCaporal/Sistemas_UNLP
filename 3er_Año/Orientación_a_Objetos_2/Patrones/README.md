@@ -2,7 +2,7 @@
 > [!IMPORTANT]
 > No hagas ejercicios si no entendiste e interiorizaste esto antes. Leelo.
 
-## 1.1. ¿QUÉ ES UN PATRÓN DE DISEÑO?
+# 1. ¿QUÉ ES UN PATRÓN DE DISEÑO?
 
 Según Christopher Alexander, “cada patrón describe un problema que ocurre una y otra vez en nuestro entorno, así como la solución de ese problema, de tal modo que se pueda aplicar esta solución un millón de veces, sin hacer lo mismo dos veces” [AIS+77, página x]. Aunque Alexander se refería a patrones en ciudades y edificios, lo que dice también es válido para patrones de diseño orientados a objetos. Nuestros sistemas de software expresan, en términos de objetos e interfaces, en vez de paredes y puertas, pero la esencia de ambos tipos de patrones se encuentra en solucionar un problema dentro de un contexto.
 
@@ -16,14 +16,13 @@ En general, un patrón tiene cuatro elementos esenciales:
 
 4. **Las consecuencias** son los resultados del patrón, los beneficios e inconvenientes de aplicar el patrón. Aunque cuando se describen soluciones de diseño muchas veces no se mencionan sus consecuencias, éstas son fundamentales para evaluar las alternativas de diseño y comprender los costos y beneficios de aplicar el patrón. Las consecuencias de un software suelen referirse a compromiso entre espacio y tiempo. También pueden lenguaje e implementación. La reutilización suele ser uno de los factores de diseño más orientados a objetos. Las consecuencias de un patrón incluyen su impacto sobre la flexibilidad, extensibilidad y portabilidad de un sistema. Incluir estas consecuencias de un modo explícito nos ayudará a comprenderlas y evaluarlas.
 
----
-
 Qué es y qué no es un patrón de diseño es una cuestión que depende del punto de vista de cada uno. Lo que para una persona es un patrón puede ser un bloque primitivo de construcción para otra.
 
 Un patrón de diseño muestra, nombra e identifica los aspectos clave de una estructura de diseño común, lo que hace útiles para crear diseños orientados a objetos reutilizables. El patrón de diseño identifica clases e instancias participantes, sus roles y colaboraciones, y la distribución de responsabilidades. Cada patrón de diseño proporciona una representación general de una solución de diseño que puede adaptarse a diferentes situaciones dentro de cierto rango de diseño. Cada patrón permite diseñar software orientado a objetos con mayor facilidad, eficacia y comprensión.
 
 
-## 1.2. DESCRIPCIÓN DE LOS PATRONES DE DISEÑO
+---
+# 2. DESCRIPCIÓN DE LOS PATRONES DE DISEÑO
 
 **¿Cómo describimos los patrones de diseño?** Las notaciones gráficas, aunque importantes, no son suficientes. Simplemente representan el producto final del proceso de diseño, como las relaciones entre clases y objetos. Para reutilizar el diseño, debemos hacer constar las decisiones, alternativas y ventajas e inconvenientes que dieron lugar a él. También son importantes los ejemplos concretos, porque nos ayudan a ver el diseño en acción.
 
@@ -82,10 +81,10 @@ Ejemplos del patrón en sistemas reales. Incluimos al menos dos ejemplos de dife
 
 ¿Qué patrones de diseño están estrechamente relacionados con éste? ¿Cuáles son las principales diferencias? ¿Con qué otros patrones debería usarse?
 
+
+
 ---
-
-
-## 1.3 EL CATÁLOGO DE PATRONES DE DISEÑO
+# 3 EL CATÁLOGO DE PATRONES DE DISEÑO
 
 El catálogo del libro de GoF contiene 23 patrones de diseño.
 A continuación, se listarán solo los que se dictaron durante la cursada de OO2 en 2025, aunque se recomienda encarecidemente leer el libro.
@@ -119,8 +118,8 @@ Define en una operación el esqueleto de un algoritmo, delegando en las subclase
 El patrón Null Object proporciona un objeto que encapsula la ausencia de otro objeto mediante un comportamiento predeterminado neutro (no hace nada), de modo que el cliente puede invocar métodos sin necesidad de realizar comprobaciones de nulos en tiempo de ejecución
 
 
-
-## 1.4 Cómo seleccionar un patrón de diseño
+---
+# 4 Cómo seleccionar un patrón de diseño
 
 Con más de 20 patrones de diseño para elegir en el catálogo, puede ser difícil encontrar aquel que resuelva un problema de diseño concreto, especialmente si el catálogo es nuevo y desconocido para el lector. A continuación se muestran diferentes enfoques para encontrar el patrón de diseño que se adecue a su problema:
 
@@ -156,9 +155,10 @@ Con más de 20 patrones de diseño para elegir en el catálogo, puede ser difíc
 | De comportamiento     | **Null Object**    | el comportamiento ante la ausencia de un objeto real        |
 
 
----
 
-## 1.5 Cómo usar un patrón de diseño
+
+---
+# 5 Cómo usar un patrón de diseño
 
 Una vez que haya elegido un patrón de diseño, ¿cómo usarlo? A continuación se presenta un enfoque paso a paso para aplicarlo de manera efectiva:
 
