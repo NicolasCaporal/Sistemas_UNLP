@@ -10,13 +10,13 @@ const char* chat_id = "";
 WiFiClientSecure client;
 UniversalTelegramBot bot(botToken, client);
 
-#define LED_VENTANA 2  // LED integrado del ESP32-S
+#define LED_VENTANA 2  // LED integrado
 
-const int intervaloTemperatura = 5000;     // Cada 5 segundos simula temperatura
+const int intervaloTemperatura = 15000;     // Cada 15 segundos simula temperatura
 const int duracionLED = 10000;             // LED encendido por 10 segundos
 
 unsigned long tiempoUltimoInformeEstado = 0;
-const unsigned long intervaloEstado = 180000; // 3 minutos
+const unsigned long intervaloEstado = 180000; // Cada 3 minutos informa el estado por telegram
 
 bool ventanaAbierta = false;
 bool ledEncendido = false;  // controla el motor/el LED
