@@ -167,7 +167,7 @@ void abrirVentana() {
   ledEncendido = true;
   tiempoInicioLED = millis();
   Serial.println(tiempoInicioLED);
-  Serial.println("Ventana ABIERTA por comando");
+  Serial.println("ABRIENDO ventana por comando");
   publicarEstadoVentana();
 }
 
@@ -177,7 +177,7 @@ void cerrarVentana() {
   ledEncendido = true;
   ventanaAbierta = false;
   tiempoInicioLED = millis();
-  Serial.println("Ventana CERRADA por comando");
+  Serial.println("CERRANDO ventana por comando");
   publicarEstadoVentana();
 }
 
