@@ -69,6 +69,7 @@ void conectarInfluxDB(){
   if (influxClient.validateConnection()) {
     Serial.print("Conectado a InfluxDB: ");
     Serial.println(influxClient.getServerUrl());
+    Serial.print(" 💾");
     
   } else {
     Serial.print("Error conexión InfluxDB: ");
@@ -122,6 +123,7 @@ void conectarMQTT() {
       client.subscribe(mqttTopicControl); 
       Serial.print("Suscripción a: ");
       Serial.println(mqttTopicControl);
+      Serial.print(" 🦻");
     } else {
       Serial.print("Error MQTT, rc=");
       Serial.print(client.state());
