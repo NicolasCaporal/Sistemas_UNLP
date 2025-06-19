@@ -1,5 +1,6 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
+#include <InfluxDbClient.h>
 
 #define LED_VENTANA 2  // LED integrado
 
@@ -14,13 +15,20 @@ const char* mqttTopicTemp = "invernadero/temperatura";
 const char* mqttTopicControl = "invernadero/ventana/control";  // topic para recibir comandos
 const char* mqttTopicEstado = "invernadero/ventana/estado";    // topic para publicar estado
 
+// Config InfluxDB 1.8
+const char* INFLUXDB_HOST = "192.168.0.69";  // Misma IP que MQTT
+const int INFLUXDB_PORT = 8086;
+const char* INFLUXDB_DB = "practica2";
+
 // Intervalos de tiempo
 const int intervaloTemperatura = 15000;    // Cada 15 segundos
 const int duracionLED = 10000;             // LED encendido por 10 segundos
 const unsigned long intervaloEstado = 180000; // Cada 3 minutos
 
+// Clientes
 WiFiClient espClient;
 PubSubClient client(espClient);
+InfluxDBClient influxClient(INFLUXDB_HOST, INFLUXDB_DB);
 
 // Variables de estado
 bool ventanaAbierta = false;
@@ -38,6 +46,37 @@ int parpadeosRestantes = 0;
 
 // ================== FUNCIONES ================== //
 
+void enviarDatosInfluxDB() {
+  Point sensorPoint("clima_invernadero");  // Nombre de la medición
+  
+  // Fields
+  sensorPoint.addField("temperatura", temperatura);
+  sensorPoint.addField("ventana_abierta", ventanaAbierta ? 1 : 0);
+
+  if (!influxClient.writePoint(sensorPoint)) {
+    Serial.print("Error InfluxDB: ");
+    Serial.println(influxClient.getLastErrorMessage());
+  } else {
+    Serial.println("Datos enviados a InfluxDB (v1)");
+  }
+}
+
+void conectarInfluxDB(){
+  String influxUrl = "http://" + String(INFLUXDB_HOST) + ":" + String(INFLUXDB_PORT);
+  influxClient.setConnectionParamsV1(influxUrl, INFLUXDB_DB);
+  influxClient.setWriteOptions(WriteOptions().writePrecision(WritePrecision::S));
+
+  // Verificar conexión
+  if (influxClient.validateConnection()) {
+    Serial.print("Conectado a InfluxDB: ");
+    Serial.println(influxClient.getServerUrl());
+    
+  } else {
+    Serial.print("Error conexión InfluxDB: ");
+    Serial.println(influxClient.getLastErrorMessage());
+  }
+}
+
 void callbackMQTT(char* topic, byte* payload, unsigned int length) {
   // Convertir payload a String
   String mensaje;
@@ -51,7 +90,6 @@ void callbackMQTT(char* topic, byte* payload, unsigned int length) {
   Serial.println(mensaje);
 
   if (String(topic) == String(mqttTopicControl)) {
-    // Parseo manual del JSON
     int payloadIndex = mensaje.indexOf("\"payload\":\"");
     if (payloadIndex >= 0) {
       int start = payloadIndex + 11; // Posición después de "payload":"
@@ -151,6 +189,7 @@ void publicarTemperatura() {
   } else {
     Serial.println("[MQTT] Error en publicación!");
   }
+  enviarDatosInfluxDB(); 
 }
 
 void publicarEstadoVentana() {
@@ -162,6 +201,7 @@ void publicarEstadoVentana() {
   } else {
     Serial.println("[MQTT] Error publicando estado!");
   }
+  enviarDatosInfluxDB(); 
 }
 
 // ================== SETUP & LOOP ================== //
@@ -176,6 +216,7 @@ void setup() {
   
   conectarWiFi();
   conectarMQTT();
+  conectarInfluxDB();
   
   iniciarParpadeo(3);  // Señal de inicio
   randomSeed(analogRead(0));
@@ -202,7 +243,7 @@ void loop() {
   }
   client.loop();
 
-  // Publicar temperatura periódicamente
+  // Publicar temperatura
   if (tiempoActual - tiempoUltimaTemperatura >= intervaloTemperatura) {
     tiempoUltimaTemperatura = tiempoActual;
     
@@ -216,7 +257,7 @@ void loop() {
     publicarTemperatura();
   }
 
-  // Informe periódico de estado
+  // Informar estado
   if (tiempoActual - tiempoUltimoInformeEstado >= intervaloEstado) {
     informarStatus();
     publicarEstadoVentana();
