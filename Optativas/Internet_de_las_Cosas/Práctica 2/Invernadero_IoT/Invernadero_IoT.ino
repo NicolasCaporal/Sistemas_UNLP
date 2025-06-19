@@ -16,7 +16,7 @@ const char* mqttTopicControl = "invernadero/ventana/control";  // topic para rec
 const char* mqttTopicEstado = "invernadero/ventana/estado";    // topic para publicar estado
 
 // Config InfluxDB 1.8
-const char* INFLUXDB_HOST = "192.168.0.69";  // Misma IP que MQTT
+const char* INFLUXDB_HOST = "192...";  // Misma IP que MQTT
 const int INFLUXDB_PORT = 8086;
 const char* INFLUXDB_DB = "practica2";
 
@@ -51,7 +51,7 @@ void enviarDatosInfluxDB() {
   
   // Fields
   sensorPoint.addField("temperatura", temperatura);
-  sensorPoint.addField("ventana_abierta", ventanaAbierta ? 1 : 0);
+  sensorPoint.addField("ventana_abierta", ventanaAbierta ? 1.0 : 0.0);
 
   if (!influxClient.writePoint(sensorPoint)) {
     Serial.print("Error InfluxDB: ");
@@ -64,7 +64,6 @@ void enviarDatosInfluxDB() {
 void conectarInfluxDB(){
   String influxUrl = "http://" + String(INFLUXDB_HOST) + ":" + String(INFLUXDB_PORT);
   influxClient.setConnectionParamsV1(influxUrl, INFLUXDB_DB);
-  influxClient.setWriteOptions(WriteOptions().writePrecision(WritePrecision::S));
 
   // Verificar conexión
   if (influxClient.validateConnection()) {
@@ -140,7 +139,7 @@ void conectarWiFi() {
     delay(500);
   }
   Serial.println();
-  Serial.print("¡WiFi conectado! 🛜");
+  Serial.println("¡WiFi conectado! 🛜");
 }
 
 void iniciarParpadeo(int veces) {
