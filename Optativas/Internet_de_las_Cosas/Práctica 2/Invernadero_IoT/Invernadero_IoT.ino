@@ -44,6 +44,7 @@ unsigned long tiempoParpadeo = 0;
 bool estadoLED = false;
 int parpadeosRestantes = 0;
 
+
 // ================== FUNCIONES ================== //
 
 void enviarDatosInfluxDB() {
@@ -61,6 +62,7 @@ void enviarDatosInfluxDB() {
   }
 }
 
+
 void conectarInfluxDB(){
   String influxUrl = "http://" + String(INFLUXDB_HOST) + ":" + String(INFLUXDB_PORT);
   influxClient.setConnectionParamsV1(influxUrl, INFLUXDB_DB);
@@ -76,6 +78,7 @@ void conectarInfluxDB(){
     Serial.println(influxClient.getLastErrorMessage());
   }
 }
+
 
 void callbackMQTT(char* topic, byte* payload, unsigned int length) {
   // Convertir payload a String
@@ -113,6 +116,7 @@ void callbackMQTT(char* topic, byte* payload, unsigned int length) {
   }
 }
 
+
 void conectarMQTT() {
   client.setServer(mqttServer, mqttPort);
   client.setCallback(callbackMQTT);
@@ -133,6 +137,7 @@ void conectarMQTT() {
   }
 }
 
+
 void conectarWiFi() {
   WiFi.begin(ssid, password);
   Serial.print("Conectando a WiFi");
@@ -144,10 +149,12 @@ void conectarWiFi() {
   Serial.println("¡WiFi conectado! 🛜");
 }
 
+
 void iniciarParpadeo(int veces) {
   parpadeosRestantes = veces * 2;
   tiempoParpadeo = millis();
 }
+
 
 void abrirVentana() {
   digitalWrite(LED_VENTANA, HIGH);
@@ -158,6 +165,7 @@ void abrirVentana() {
   publicarEstadoVentana();  // Publicar nuevo estado
 }
 
+
 void cerrarVentana() {
   digitalWrite(LED_VENTANA, HIGH);
   ledEncendido = true;
@@ -166,6 +174,7 @@ void cerrarVentana() {
   Serial.println("Ventana CERRADA por comando");
   publicarEstadoVentana();  // Publicar nuevo estado
 }
+
 
 void informarStatus() {
   tiempoUltimoInformeEstado = millis();
@@ -180,6 +189,7 @@ void informarStatus() {
   Serial.println("=========================\n");
 }
 
+
 void publicarTemperatura() {
   char payload[16];
   dtostrf(temperatura, 4, 2, payload);
@@ -193,6 +203,7 @@ void publicarTemperatura() {
   enviarDatosInfluxDB(); 
 }
 
+
 void publicarEstadoVentana() {
   const char* estado = ventanaAbierta ? "abierta" : "cerrada";
   
@@ -204,6 +215,7 @@ void publicarEstadoVentana() {
   }
   enviarDatosInfluxDB(); 
 }
+
 
 // ================== SETUP & LOOP ================== //
 
@@ -224,6 +236,7 @@ void setup() {
   
   Serial.println("Sistema listo - Esperando comandos MQTT ✅");
 }
+
 
 void loop() {
   unsigned long tiempoActual = millis();
