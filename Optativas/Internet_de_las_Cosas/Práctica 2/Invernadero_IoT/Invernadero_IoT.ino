@@ -3,14 +3,16 @@
 
 #define LED_VENTANA 2  // LED integrado
 
-// — tus datos WiFi —
-const char* ssid = "*WiFi2.4GHz";
+// datos WiFi 
+const char* ssid = "WiFi 2.4GHz";
 const char* password = "01234";
 
 // — broker MQTT —
-const char* mqttServer = "192.";
+const char* mqttServer = "192...";
 const int mqttPort = 1883;
-const char* mqttTopic = "invernadero/temperatura";
+const char* mqttTopicTemp = "invernadero/temperatura";
+const char* mqttTopicControl = "invernadero/ventana/control";  // topic para recibir comandos
+const char* mqttTopicEstado = "invernadero/ventana/estado";    // topic para publicar estado
 
 // Intervalos de tiempo
 const int intervaloTemperatura = 15000;    // Cada 15 segundos
@@ -23,7 +25,6 @@ PubSubClient client(espClient);
 // Variables de estado
 bool ventanaAbierta = false;
 bool ledEncendido = false;
-bool modoAutomatico = true;
 
 float temperatura;
 unsigned long tiempoUltimaTemperatura = 0;
@@ -37,11 +38,53 @@ int parpadeosRestantes = 0;
 
 // ================== FUNCIONES ================== //
 
+void callbackMQTT(char* topic, byte* payload, unsigned int length) {
+  // Convertir payload a String
+  String mensaje;
+  for (int i = 0; i < length; i++) {
+    mensaje += (char)payload[i];
+  }
+  
+  Serial.print("Mensaje recibido [");
+  Serial.print(topic);
+  Serial.print("]: ");
+  Serial.println(mensaje);
+
+  if (String(topic) == String(mqttTopicControl)) {
+    // Parseo manual del JSON
+    int payloadIndex = mensaje.indexOf("\"payload\":\"");
+    if (payloadIndex >= 0) {
+      int start = payloadIndex + 11; // Posición después de "payload":"
+      int end = mensaje.indexOf("\"", start);
+      
+      if (end > start) {
+        String comando = mensaje.substring(start, end);
+        Serial.print("Comando extraído: ");
+        Serial.println(comando);
+        
+        if (comando == "abrir") {
+          abrirVentana();
+        } 
+        else if (comando == "cerrar") {
+          cerrarVentana();
+        }
+        return;
+      }
+    }
+    Serial.println("Error: Formato JSON inválido");
+  }
+}
+
 void conectarMQTT() {
   client.setServer(mqttServer, mqttPort);
+  client.setCallback(callbackMQTT);
+  
   while (!client.connected()) {
     if (client.connect("ESP32-Invernadero")) {
-      Serial.println("MQTT conectado");
+      Serial.println("MQTT conectado 🌐");
+      client.subscribe(mqttTopicControl); 
+      Serial.print("Suscripción a: ");
+      Serial.println(mqttTopicControl);
     } else {
       Serial.print("Error MQTT, rc=");
       Serial.print(client.state());
@@ -59,12 +102,11 @@ void conectarWiFi() {
     delay(500);
   }
   Serial.println();
-  Serial.print("¡WiFi conectado! IP: ");
-  Serial.println(WiFi.localIP());
+  Serial.print("¡WiFi conectado! 🛜");
 }
 
 void iniciarParpadeo(int veces) {
-  parpadeosRestantes = veces * 2; // Parpadeos completos (ON-OFF)
+  parpadeosRestantes = veces * 2;
   tiempoParpadeo = millis();
 }
 
@@ -73,7 +115,8 @@ void abrirVentana() {
   ventanaAbierta = true;
   ledEncendido = true;
   tiempoInicioLED = millis();
-  Serial.println("Ventana ABIERTA");
+  Serial.println("Ventana ABIERTA por comando");
+  publicarEstadoVentana();  // Publicar nuevo estado
 }
 
 void cerrarVentana() {
@@ -81,17 +124,8 @@ void cerrarVentana() {
   ledEncendido = true;
   ventanaAbierta = false;
   tiempoInicioLED = millis();
-  Serial.println("Ventana CERRADA");
-}
-
-void censadoTemperatura() {
-  if (temperatura > 30.00 && !ventanaAbierta) {
-    Serial.println("Temperatura alta: ABRIENDO ventana");
-    abrirVentana();
-  } else if (temperatura < 20.00 && ventanaAbierta) {
-    Serial.println("Temperatura baja: CERRANDO ventana");
-    cerrarVentana();
-  }
+  Serial.println("Ventana CERRADA por comando");
+  publicarEstadoVentana();  // Publicar nuevo estado
 }
 
 void informarStatus() {
@@ -111,11 +145,22 @@ void publicarTemperatura() {
   char payload[16];
   dtostrf(temperatura, 4, 2, payload);
   
-  if (client.publish(mqttTopic, payload)) {
+  if (client.publish(mqttTopicTemp, payload)) {
     Serial.print("[MQTT] Publicado: ");
     Serial.println(payload);
   } else {
     Serial.println("[MQTT] Error en publicación!");
+  }
+}
+
+void publicarEstadoVentana() {
+  const char* estado = ventanaAbierta ? "abierta" : "cerrada";
+  
+  if (client.publish(mqttTopicEstado, estado)) {
+    Serial.print("[MQTT] Estado ventana: ");
+    Serial.println(estado);
+  } else {
+    Serial.println("[MQTT] Error publicando estado!");
   }
 }
 
@@ -127,7 +172,7 @@ void setup() {
   
   Serial.begin(115200);
   delay(1000);
-  Serial.println("INICIANDO SISTEMA INVERNADERO");
+  Serial.println("INICIANDO SISTEMA INVERNADERO (Modo Remoto)");
   
   conectarWiFi();
   conectarMQTT();
@@ -135,7 +180,7 @@ void setup() {
   iniciarParpadeo(3);  // Señal de inicio
   randomSeed(analogRead(0));
   
-  Serial.println("Sistema listo ✅");
+  Serial.println("Sistema listo - Esperando comandos MQTT ✅");
 }
 
 void loop() {
@@ -151,13 +196,13 @@ void loop() {
     }
   }
 
-  // Reconexión MQTT si es necesario
+  // Mantener conexión MQTT
   if (!client.connected()) {
     conectarMQTT();
   }
   client.loop();
 
-  // Generar y publicar temperatura
+  // Publicar temperatura periódicamente
   if (tiempoActual - tiempoUltimaTemperatura >= intervaloTemperatura) {
     tiempoUltimaTemperatura = tiempoActual;
     
@@ -169,15 +214,12 @@ void loop() {
     Serial.println(" °C");
     
     publicarTemperatura();
-    
-    if (modoAutomatico) {
-      censadoTemperatura();
-    }
   }
 
   // Informe periódico de estado
   if (tiempoActual - tiempoUltimoInformeEstado >= intervaloEstado) {
     informarStatus();
+    publicarEstadoVentana();
   }
 
   // Apagar LED después de tiempo de operación
