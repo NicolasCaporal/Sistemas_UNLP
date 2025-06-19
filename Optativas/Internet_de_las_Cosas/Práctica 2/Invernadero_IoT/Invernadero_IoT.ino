@@ -22,7 +22,7 @@ const char* INFLUXDB_DB = "practica2";
 
 // Intervalos de tiempo
 const int intervaloTemperatura = 15000;    // Cada 15 segundos
-const int duracionLED = 10000;             // LED encendido por 10 segundos
+const unsigned long duracionLED = 10000;             // LED encendido por 10 segundos
 const unsigned long intervaloEstado = 180000; // Cada 3 minutos
 
 // Clientes
@@ -70,8 +70,8 @@ void conectarInfluxDB(){
   // Verificar conexión
   if (influxClient.validateConnection()) {
     Serial.print("Conectado a InfluxDB: ");
-    Serial.println(influxClient.getServerUrl());
-    Serial.print(" 💾");
+    Serial.print(influxClient.getServerUrl());
+    Serial.println(" 💾");
     
   } else {
     Serial.print("Error conexión InfluxDB: ");
@@ -126,8 +126,8 @@ void conectarMQTT() {
       Serial.println("MQTT conectado 🌐");
       client.subscribe(mqttTopicControl); 
       Serial.print("Suscripción a: ");
-      Serial.println(mqttTopicControl);
-      Serial.print(" 🦻");
+      Serial.print(mqttTopicControl);
+      Serial.println(" 🦻");
     } else {
       Serial.print("Error MQTT, rc=");
       Serial.print(client.state());
@@ -150,29 +150,35 @@ void conectarWiFi() {
 }
 
 
-void iniciarParpadeo(int veces) {
-  parpadeosRestantes = veces * 2;
-  tiempoParpadeo = millis();
+void parpadearLed(int pin, int veces, int duracionMillis) {
+  pinMode(pin, OUTPUT);
+  for (int i = 0; i < veces; i++) {
+    digitalWrite(pin, HIGH);
+    delay(duracionMillis);
+    digitalWrite(pin, LOW);
+    delay(duracionMillis);
+  }
 }
 
 
-void abrirVentana() {
+void abrirVentana() {         
   digitalWrite(LED_VENTANA, HIGH);
   ventanaAbierta = true;
   ledEncendido = true;
   tiempoInicioLED = millis();
+  Serial.println(tiempoInicioLED);
   Serial.println("Ventana ABIERTA por comando");
-  publicarEstadoVentana();  // Publicar nuevo estado
+  publicarEstadoVentana();
 }
 
 
-void cerrarVentana() {
+void cerrarVentana() {       
   digitalWrite(LED_VENTANA, HIGH);
   ledEncendido = true;
   ventanaAbierta = false;
   tiempoInicioLED = millis();
   Serial.println("Ventana CERRADA por comando");
-  publicarEstadoVentana();  // Publicar nuevo estado
+  publicarEstadoVentana();
 }
 
 
@@ -231,7 +237,9 @@ void setup() {
   conectarMQTT();
   conectarInfluxDB();
   
-  iniciarParpadeo(3);  // Señal de inicio
+  parpadearLed(LED_VENTANA, 3, 150);  // 3 veces, 150 ms prendido y 150 ms apagado
+
+
   randomSeed(analogRead(0));
   
   Serial.println("Sistema listo - Esperando comandos MQTT ✅");
@@ -241,21 +249,7 @@ void setup() {
 void loop() {
   unsigned long tiempoActual = millis();
 
-  // Manejo de parpadeo LED
-  if (parpadeosRestantes > 0) {
-    if (tiempoActual - tiempoParpadeo >= 150) {
-      estadoLED = !estadoLED;
-      digitalWrite(LED_VENTANA, estadoLED);
-      tiempoParpadeo = tiempoActual;
-      if (!estadoLED) parpadeosRestantes--;
-    }
-  }
-
-  // Mantener conexión MQTT
-  if (!client.connected()) {
-    conectarMQTT();
-  }
-  client.loop();
+  
 
   // Publicar temperatura
   if (tiempoActual - tiempoUltimaTemperatura >= intervaloTemperatura) {
@@ -283,4 +277,11 @@ void loop() {
     digitalWrite(LED_VENTANA, LOW);
     Serial.println("LED apagado (fin operación ventana)");
   }
+
+  // Mantener conexión MQTT
+  if (!client.connected()) {
+    conectarMQTT();
+  }
+  client.loop();
+
 }
